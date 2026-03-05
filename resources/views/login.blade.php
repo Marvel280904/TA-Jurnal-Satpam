@@ -12,9 +12,7 @@
 
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <div class="text-center mb-8">
-            <div class="bg-blue-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="bi bi-shield text-white text-3xl"></i>
-            </div>
+            <img src="{{ asset('logo-aica.png') }}" alt="Logo" class="h-14 w-auto mx-auto mb-4">
             <h1 class="text-2xl font-bold text-gray-800">Sistem Informasi Jurnal</h1>
             <p class="text-gray-500">Operasional Keamanan</p>
         </div>
