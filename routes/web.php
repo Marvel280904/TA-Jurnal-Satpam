@@ -30,6 +30,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     // ==========================================
     Route::middleware(['role:Satpam,PGA'])->group(function () {
         Route::get('/journal/view/{id}', [JournalController::class, 'viewJournalDetail'])->name('journal.view');
+        Route::get('/log-history', [LogHistoryController::class, 'viewJournal'])->name('log-history');
+        Route::get('/journal/download/{id}', [JournalController::class, 'downloadPDF'])->name('journal.download');
     });
 
     // ==========================================
@@ -82,14 +84,14 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::post('/satpam/journal-submission', [JournalController::class, 'submitJournal'])->name('satpam.journal.submit');
 
         // Log History
-        Route::get('/satpam/log-history', [LogHistoryController::class, 'viewJournal'])->name('satpam.log-history');
+        // Moved to Shared Routes
 
         // Journal Actions
         // Replaced route here to shared auth group
         Route::get('/satpam/journal/edit/{journal}', [JournalController::class, 'edit'])->name('satpam.journal.edit');
         Route::put('/satpam/journal/edit/{journal}', [JournalController::class, 'update'])->name('satpam.journal.update');
         Route::post('/satpam/journal/handover/{id}', [JournalController::class, 'handoverApproval'])->name('satpam.journal.handover');
-        Route::get('/satpam/journal/download/{id}', [JournalController::class, 'downloadPDF'])->name('satpam.journal.download');
+        // Download moved to Shared Routes
     });
 
     // ==========================================
@@ -106,8 +108,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         // PGA - Group Details
         Route::get('/pga/groups-details', [GroupDetailsController::class, 'viewGroup'])->name('pga.groups-details');
 
-        Route::get('/pga/log-history', function () {
-            return "Halaman Log History PGA (coming soon)";
-        })->name('pga.log-history');
+        // PGA - Journal Deletion
+        Route::delete('/pga/journal/{id}', [JournalController::class, 'deleteJournal'])->name('pga.journal.delete');
     });
 });

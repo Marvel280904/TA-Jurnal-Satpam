@@ -34,8 +34,8 @@ class Upload extends Model
 
     public function deleteFile() {
         // Hapus file dari storage
-        if (Storage::exists($this->file_path)) {
-            Storage::delete($this->file_path);
+        if (Storage::disk('public')->exists($this->file_path)) {
+            Storage::disk('public')->delete($this->file_path);
         }
         // Hapus record dari database
         return $this->delete();

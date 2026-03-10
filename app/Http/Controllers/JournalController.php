@@ -34,7 +34,7 @@ class JournalController extends Controller
         $request->validate([
             'lokasi_id'         => 'required|exists:locations,id',
             'shift_id'          => 'required|exists:shifts,id',
-            'tanggal'           => 'required|date',
+            'tanggal'           => 'required|date|before_or_equal:today',
             'next_shift'        => 'required|exists:groups,id',
             'laporan_kegiatan'  => 'required|string',
             'kejadian_temuan'   => 'required|string',
@@ -50,6 +50,7 @@ class JournalController extends Controller
             'shift_id.exists'           => 'Shift saat ini tidak valid!',
             'tanggal.required'          => 'Tanggal wajib diisi!',
             'tanggal.date'              => 'Format tanggal tidak valid!',
+            'tanggal.before_or_equal'   => 'Tanggal tidak boleh lebih dari hari ini!',
             'next_shift.required'       => 'Shift berikutnya (Grup) wajib dipilih!',
             'next_shift.exists'         => 'Grup shift berikutnya tidak valid!',
             'laporan_kegiatan.required' => 'Laporan Kegiatan wajib diisi!',
@@ -125,7 +126,7 @@ class JournalController extends Controller
                 ->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
 
-        return redirect()->route('satpam.log-history')
+        return redirect()->route('log-history')
             ->with('success', 'Journal berhasil disubmit!');
     }
 
@@ -212,7 +213,7 @@ class JournalController extends Controller
         $request->validate([
             'lokasi_id'         => 'required|exists:locations,id',
             'shift_id'          => 'required|exists:shifts,id',
-            'tanggal'           => 'required|date',
+            'tanggal'           => 'required|date|before_or_equal:today',
             'next_shift'        => 'required|exists:groups,id',
             'laporan_kegiatan'  => 'required|string',
             'kejadian_temuan'   => 'required|string',
@@ -228,6 +229,7 @@ class JournalController extends Controller
             'shift_id.exists'           => 'Shift saat ini tidak valid!',
             'tanggal.required'          => 'Tanggal wajib diisi!',
             'tanggal.date'              => 'Format tanggal tidak valid!',
+            'tanggal.before_or_equal'   => 'Tanggal tidak boleh lebih dari hari ini!',
             'next_shift.required'       => 'Shift berikutnya (Grup) wajib dipilih!',
             'next_shift.exists'         => 'Grup shift berikutnya tidak valid!',
             'laporan_kegiatan.required' => 'Laporan Kegiatan wajib diisi!',
@@ -295,7 +297,7 @@ class JournalController extends Controller
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
 
-        return redirect()->route('satpam.log-history')->with('success', 'Journal berhasil diperbarui.');
+        return redirect()->route('log-history')->with('success', 'Journal berhasil diperbarui.');
     }
 
     public function downloadPDF($id)
@@ -347,5 +349,33 @@ class JournalController extends Controller
         $journal->finalApproval(Auth::id(), $status);
 
         return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '.');
+    }
+
+    public function deleteJournal($id)
+    {
+        // Security check: Only PGA can delete
+        if (Auth::user()->role !== 'PGA') {
+            return redirect()->back()->with('error', 'Hanya PGA yang dapat menghapus jurnal.');
+        }
+
+        $journal = Journal::with('uploads')->findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            // Delete associated files
+            foreach ($journal->uploads as $upload) {
+                $upload->deleteFile(); // This model method already handles storage & DB deletion
+            }
+
+            // Delete the journal itself
+            $journal->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus jurnal: ' . $e->getMessage());
+        }
+
+        return redirect()->route('log-history')->with('success', 'Jurnal berhasil dihapus secara permanen.');
     }
 }

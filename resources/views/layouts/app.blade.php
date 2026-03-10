@@ -117,9 +117,9 @@
                     <i class="bi bi-journal-plus text-lg"></i>
                     <span class="text-sm">Journal Submission</span>
                 </a>
-                <a href="{{ route('satpam.log-history') }}"
+                <a href="{{ route('log-history') }}"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                        {{ request()->routeIs('satpam.log-history') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800' }}">
+                        {{ request()->routeIs('log-history') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800' }}">
                     <i class="bi bi-clock-history text-lg"></i>
                     <span class="text-sm">Log History</span>
                 </a>
@@ -136,9 +136,9 @@
                     <i class="bi bi-people text-lg"></i>
                     <span class="text-sm">Group Details</span>
                 </a>
-                <a href="{{ route('pga.log-history') }}"
+                <a href="{{ route('log-history') }}"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition
-                        {{ request()->routeIs('pga.log-history') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800' }}">
+                        {{ request()->routeIs('log-history') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800' }}">
                     <i class="bi bi-clock-history text-lg"></i>
                     <span class="text-sm">Log History</span>
                 </a>

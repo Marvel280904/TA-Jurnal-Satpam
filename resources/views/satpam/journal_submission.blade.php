@@ -148,8 +148,7 @@
                     <textarea name="laporan_kegiatan" id="laporan_kegiatan" rows="4"
                         required
                         placeholder="Deskripsikan kegiatan operasional yang dilakukan..."
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none
-                        {{ $errors->has('laporan_kegiatan') ? 'border-red-400 bg-red-50' : '' }}">{{ old('laporan_kegiatan') }}</textarea>
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none">{{ old('laporan_kegiatan') }}</textarea>
                 </div>
 
                 {{-- Laporan Kejadian --}}
@@ -241,7 +240,7 @@
 
         {{-- Submit Button --}}
         <div class="flex justify-end mb-8">
-            <button type="submit"
+            <button type="button" onclick="openSubmitConfirmModal()"
                 class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm px-6 py-3 rounded-lg shadow transition">
                 <i class="bi bi-send-fill"></i>
                 Submit Journal
@@ -249,6 +248,9 @@
         </div>
     </form>
 </div>
+
+<!-- Include Modal Confirm Submit -->
+@include('modal_submitConfirm')
 
 <script>
     // ── Drag & Drop ────────────────────────────────────────────────────────────

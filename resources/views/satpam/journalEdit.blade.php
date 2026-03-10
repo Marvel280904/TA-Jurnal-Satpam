@@ -282,8 +282,8 @@
         </div>
 
         <div class="flex justify-end mb-8">
-            <a href="{{ route('satpam.log-history') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm px-6 py-3 rounded-lg transition mr-3">Batal</a>
-            <button type="submit"
+            <a href="{{ route('log-history') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm px-6 py-3 rounded-lg transition mr-3">Batal</a>
+            <button type="button" onclick="openSubmitConfirmModal()"
                 class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm px-6 py-3 rounded-lg shadow transition">
                 <i class="bi bi-save"></i>
                 Update Journal
@@ -291,6 +291,9 @@
         </div>
     </form>
 </div>
+
+<!-- Include Modal Confirm Submit -->
+@include('modal_submitConfirm')
 
 <script>
     // ── Drag & Drop ────────────────────────────────────────────────────────────

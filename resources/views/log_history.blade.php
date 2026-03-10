@@ -78,9 +78,14 @@
                                     <i class="bi bi-pencil-square text-lg"></i>
                                 </a>
                                 @endif
-                                <a href="{{ route('satpam.journal.download', $journal->id) }}" class="text-red-500 hover:text-red-700 transition" title="Download PDF">
+                                <a href="{{ route('journal.download', $journal->id) }}" class="text-red-500 hover:text-red-700 transition" title="Download PDF">
                                     <i class="bi bi-file-earmark-pdf text-lg"></i>
                                 </a>
+                                @if(auth()->user()->role === 'PGA')
+                                <button onclick="openDeleteModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" class="text-red-600 hover:text-red-800 transition" title="Delete Journal">
+                                    <i class="bi bi-trash text-lg"></i>
+                                </button>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -117,6 +122,32 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl transform scale-95 transition-transform duration-300 p-6 mx-4">
+        <div class="flex items-center gap-3 text-red-600 mb-4">
+            <i class="bi bi-exclamation-triangle-fill text-2xl"></i>
+            <h2 class="text-xl font-bold">Hapus Jurnal?</h2>
+        </div>
+        <p class="text-gray-600 mb-2">Apakah Anda yakin ingin menghapus jurnal ini secara permanen?</p>
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-6">
+            <p class="text-sm text-gray-700"><strong>Tanggal:</strong> <span id="deleteDate"></span></p>
+            <p class="text-sm text-gray-700"><strong>Lokasi:</strong> <span id="deleteLocation"></span></p>
+            <p class="text-sm text-gray-700"><strong>Shift:</strong> <span id="deleteShift"></span></p>
+        </div>
+        <p class="text-sm text-red-500 mb-6 italic">*Tindakan ini tidak dapat dibatalkan dan semua lampiran akan ikut terhapus.</p>
+        
+        <form id="deleteForm" method="POST" action="">
+            @csrf
+            @method('DELETE')
+            <div class="flex justify-end gap-3 rounded-b-2xl">
+                <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg transition-colors">Batal</button>
+                <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Ya, Hapus Permanen</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     // Frontend Search & Filter Logic
     document.addEventListener('DOMContentLoaded', function() {
@@ -146,8 +177,8 @@
             noResultsRow.style.display = (visibleCount === 0) ? '' : 'none';
         }
 
-        searchInput.addEventListener('input', filterTable);
-        statusFilter.addEventListener('change', filterTable);
+        if(searchInput) searchInput.addEventListener('input', filterTable);
+        if(statusFilter) statusFilter.addEventListener('change', filterTable);
     });
 
     // Handover Modal Logic
@@ -168,6 +199,34 @@
         handoverModal.firstElementChild.classList.add('scale-95');
         setTimeout(() => {
             handoverModal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Delete Modal Logic
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteForm = document.getElementById('deleteForm');
+    const deleteDateText = document.getElementById('deleteDate');
+    const deleteLocationText = document.getElementById('deleteLocation');
+    const deleteShiftText = document.getElementById('deleteShift');
+
+    function openDeleteModal(journalId, date, location, shift) {
+        deleteForm.action = `/pga/journal/${journalId}`;
+        deleteDateText.textContent = date;
+        deleteLocationText.textContent = location;
+        deleteShiftText.textContent = shift;
+        
+        deleteModal.classList.remove('hidden');
+        setTimeout(() => {
+            deleteModal.classList.remove('opacity-0');
+            deleteModal.firstElementChild.classList.remove('scale-95');
+        }, 10);
+    }
+
+    function closeDeleteModal() {
+        deleteModal.classList.add('opacity-0');
+        deleteModal.firstElementChild.classList.add('scale-95');
+        setTimeout(() => {
+            deleteModal.classList.add('hidden');
         }, 300);
     }
 </script>
