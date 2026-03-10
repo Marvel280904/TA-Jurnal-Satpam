@@ -336,7 +336,7 @@ class JournalController extends Controller
 
         $request->validate([
             'status'  => 'required|in:Approved,Rejected',
-            'catatan' => 'required_if:status,Rejected|string',
+            'catatan' => 'required_if:status,Rejected|nullable|string',
         ], [
             'catatan.required_if' => 'Catatan wajib diisi jika jurnal ditolak.',
         ]);

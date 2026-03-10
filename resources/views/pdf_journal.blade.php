@@ -22,6 +22,7 @@
 <body>
 
     <div class="header">
+        <img src="{{ public_path('logo-aica.png') }}" style="width: 150px; margin-bottom: 10px;">
         <h1>Laporan Jurnal Keamanan Operasional PT AICA INDRIA</h1>
         <p>Dicetak pada: {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM Y HH:mm') }} | Status: <strong>{{ strtoupper($journal->status) }}</strong></p>
     </div>

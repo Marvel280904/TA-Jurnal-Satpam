@@ -62,7 +62,14 @@
                                         <span class="px-3 py-1 bg-gray-100 text-gray-700 font-bold rounded-full">Pending</span>
                                     @endif
                                 @elseif($journal->status === 'Waiting')
-                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">Waiting</span>
+                                    @if(auth()->user()->role === 'PGA')
+                                        <button onclick="openFinalApprovalModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" 
+                                            class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full hover:bg-yellow-200 transition">
+                                            Waiting (Approval)
+                                        </button>
+                                    @else
+                                        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full">Waiting</span>
+                                    @endif
                                 @elseif($journal->status === 'Approved')
                                     <span class="px-3 py-1 bg-green-100 text-green-700 font-bold rounded-full">Approved</span>
                                 @else
@@ -148,6 +155,48 @@
     </div>
 </div>
 
+<!-- Final Approval Modal (PGA Only) -->
+<div id="finalApprovalModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl transform scale-95 transition-transform duration-300 p-6 mx-4">
+        <div class="flex items-center gap-3 text-blue-600 mb-4">
+            <i class="bi bi-check2-circle text-2xl"></i>
+            <h2 class="text-xl font-bold">Final Approval Journal</h2>
+        </div>
+        
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4 text-sm">
+            <p class="text-gray-700"><strong>Tanggal:</strong> <span id="approveDate"></span></p>
+            <p class="text-gray-700"><strong>Lokasi:</strong> <span id="approveLocation"></span></p>
+            <p class="text-gray-700"><strong>Shift:</strong> <span id="approveShift"></span></p>
+        </div>
+
+        <form id="finalApprovalForm" method="POST" action="">
+            @csrf
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Status Konfirmasi <span class="text-red-500">*</span></label>
+                    <select name="status" id="finalStatusSelect" required onchange="toggleCatatanTextarea()"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-sm">
+                        <option value="Approved">Approve</option>
+                        <option value="Rejected">Reject</option>
+                    </select>
+                </div>
+
+                <div id="finalCatatanContainer" class="hidden">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Catatan Penolakan <span class="text-red-500">*</span></label>
+                    <textarea name="catatan" id="finalCatatanTextarea" rows="3" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+                        placeholder="Alasan jurnal ditolak..."></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeFinalApprovalModal()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg transition-colors">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
     // Frontend Search & Filter Logic
     document.addEventListener('DOMContentLoaded', function() {
@@ -227,6 +276,53 @@
         deleteModal.firstElementChild.classList.add('scale-95');
         setTimeout(() => {
             deleteModal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Final Approval Modal Logic (PGA)
+    const finalApprovalModal = document.getElementById('finalApprovalModal');
+    const finalApprovalForm = document.getElementById('finalApprovalForm');
+    const finalStatusSelect = document.getElementById('finalStatusSelect');
+    const finalCatatanContainer = document.getElementById('finalCatatanContainer');
+    const finalCatatanTextarea = document.getElementById('finalCatatanTextarea');
+    const approveDateText = document.getElementById('approveDate');
+    const approveLocationText = document.getElementById('approveLocation');
+    const approveShiftText = document.getElementById('approveShift');
+
+    function openFinalApprovalModal(journalId, date, location, shift) {
+        finalApprovalForm.action = `/pga/journal/${journalId}/approve`;
+        approveDateText.textContent = date;
+        approveLocationText.textContent = location;
+        approveShiftText.textContent = shift;
+        
+        // Reset form
+        finalStatusSelect.value = 'Approved';
+        finalCatatanContainer.classList.add('hidden');
+        finalCatatanTextarea.value = '';
+        finalCatatanTextarea.removeAttribute('required');
+
+        finalApprovalModal.classList.remove('hidden');
+        setTimeout(() => {
+            finalApprovalModal.classList.remove('opacity-0');
+            finalApprovalModal.firstElementChild.classList.remove('scale-95');
+        }, 10);
+    }
+
+    function toggleCatatanTextarea() {
+        if (finalStatusSelect.value === 'Rejected') {
+            finalCatatanContainer.classList.remove('hidden');
+            finalCatatanTextarea.setAttribute('required', 'required');
+        } else {
+            finalCatatanContainer.classList.add('hidden');
+            finalCatatanTextarea.removeAttribute('required');
+        }
+    }
+
+    function closeFinalApprovalModal() {
+        finalApprovalModal.classList.add('opacity-0');
+        finalApprovalModal.firstElementChild.classList.add('scale-95');
+        setTimeout(() => {
+            finalApprovalModal.classList.add('hidden');
         }, 300);
     }
 </script>
