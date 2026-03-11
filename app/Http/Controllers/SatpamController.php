@@ -16,10 +16,43 @@ class SatpamController extends Controller
         $group_id = $user->group_id;
         $today = Carbon::today();
 
-        // Journals to submit today
-        $journals_to_submit = Journal::where('next_shift', $group_id)
+        // Journals to submit today:
+        // For each journal today where this group is the next_shift,
+        // check if group already submitted the corresponding next journal.
+        $shifts = \App\Models\Shift::orderBy('mulai_shift')->get()->values();
+
+        $pendingToday = Journal::with(['shift'])
+            ->where('next_shift', $group_id)
             ->whereDate('tanggal', $today)
-            ->count();
+            ->get();
+
+        $journals_to_submit = 0;
+        foreach ($pendingToday as $journal) {
+            $currentShift = $journal->shift;
+            if (!$currentShift || $shifts->isEmpty()) continue;
+
+            $currentIndex = $shifts->search(fn($s) => $s->id === $currentShift->id);
+            if ($currentIndex === false) continue;
+
+            $nextIndex = $currentIndex + 1;
+            $wrapsAround = $nextIndex >= $shifts->count();
+
+            // If the next shift wraps around to tomorrow, skip it from today's count
+            if ($wrapsAround) continue;
+
+            $nextShift = $shifts[$nextIndex];
+            $reminderDate = $today->copy();
+
+            $alreadySubmitted = Journal::where('group_id', $group_id)
+                ->whereDate('tanggal', $reminderDate)
+                ->where('lokasi_id', $journal->lokasi_id)
+                ->where('shift_id', $nextShift->id)
+                ->exists();
+
+            if (!$alreadySubmitted) {
+                $journals_to_submit++;
+            }
+        }
 
         // Pending journals
         $pending_journals = Journal::where('group_id', $group_id)
