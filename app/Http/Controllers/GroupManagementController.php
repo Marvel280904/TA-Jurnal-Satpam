@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class GroupManagementController extends Controller
 {
-    // ─── Index ───────────────────────────────────────────────────────────────
+    // ─── viewGroup ───────────────────────────────────────────────────────────────
 
-    public function index()
+    public function viewGroup()
     {
         $groups = Group::with('users')->orderBy('nama_grup')->get();
         // Ambil semua user Satpam untuk checkbox di modal (add/edit)

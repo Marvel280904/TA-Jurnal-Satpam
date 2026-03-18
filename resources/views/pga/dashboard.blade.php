@@ -68,11 +68,11 @@
                         </div>
                         <p class="text-sm text-gray-600 mb-0.5"><span class="font-semibold text-gray-500">Location:</span> {{ $journal->location->nama_lokasi ?? '-' }}</p>
                         <p class="text-sm text-gray-600 mb-0.5"><span class="font-semibold text-gray-500">Shift:</span> {{ $journal->shift->nama_shift ?? '-' }}</p>
-                        <p class="text-sm text-gray-600"><span class="font-semibold text-gray-500">Date:</span> {{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}</p>
+                        <p class="text-sm text-gray-600"><span class="font-semibold text-gray-500">Date:</span> {{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="openViewModal({{ $journal->id }})" class="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-sm font-bold rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-gray-200">
-                            <i class="bi bi-eye"></i> View
+                        <button onclick="openViewModal({{ $journal->id }})" class="px-3 py-1.5 bg-blue-100 border border-gray-200 text-gray-700 text-sm font-bold rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                            <i class="bi bi-eye text-blue-600"></i> View
                         </button>
                         <button onclick="openApprovalModal({{ $journal->id }}, 'Approved')" class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-green-500">
                             <i class="bi bi-check2"></i> Approve

@@ -45,19 +45,19 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::get('/admin/system-logs', [SystemLogController::class, 'index'])->name('admin.system-logs');
 
         // Admin - User Management
-        Route::get('/admin/user-management', [UserManagementController::class, 'index'])->name('admin.user-management');
+        Route::get('/admin/user-management', [UserManagementController::class, 'viewUser'])->name('admin.user-management');
         Route::post('/admin/user', [UserManagementController::class, 'addUser'])->name('admin.user.store');
         Route::put('/admin/user/{user}', [UserManagementController::class, 'editUser'])->name('admin.user.update');
         Route::delete('/admin/user/{user}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
 
         // Admin - Group Management
-        Route::get('/admin/group-management', [GroupManagementController::class, 'index'])->name('admin.group-management');
+        Route::get('/admin/group-management', [GroupManagementController::class, 'viewGroup'])->name('admin.group-management');
         Route::post('/admin/group', [GroupManagementController::class, 'addGroup'])->name('admin.group.store');
         Route::put('/admin/group/{group}', [GroupManagementController::class, 'editGroup'])->name('admin.group.update');
         Route::delete('/admin/group/{group}', [GroupManagementController::class, 'deleteGroup'])->name('admin.group.destroy');
 
         // Admin - Location & Shift Management
-        Route::get('/admin/location-shift', [LocationShiftController::class, 'index'])->name('admin.location-shift');
+        Route::get('/admin/location-shift', [LocationShiftController::class, 'view'])->name('admin.location-shift');
 
         // Admin - Locations
         Route::post('/admin/location', [LocationShiftController::class, 'addLocation'])->name('admin.location.store');
@@ -88,8 +88,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
         // Journal Actions
         // Replaced route here to shared auth group
-        Route::get('/satpam/journal/edit/{journal}', [JournalController::class, 'edit'])->name('satpam.journal.edit');
-        Route::put('/satpam/journal/edit/{journal}', [JournalController::class, 'update'])->name('satpam.journal.update');
+        Route::get('/satpam/journal/edit/{journal}', [JournalController::class, 'editJournalData'])->name('satpam.journal.edit');
+        Route::put('/satpam/journal/edit/{journal}', [JournalController::class, 'editJournal'])->name('satpam.journal.update');
         Route::post('/satpam/journal/handover/{id}', [JournalController::class, 'handoverApproval'])->name('satpam.journal.handover');
         // Download moved to Shared Routes
     });

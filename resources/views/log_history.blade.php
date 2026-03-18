@@ -18,10 +18,10 @@
         <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
             <div class="relative w-full md:w-1/2">
                 <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input type="text" id="searchInput" placeholder="Cari tanggal, user, grup, lokasi, atau shift" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                <input type="text" id="searchInput" placeholder="Cari tanggal, user, grup, lokasi, atau shift" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-100">
             </div>
             
-            <select id="statusFilter" class="w-full md:w-48 pl-4 pr-8 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white">
+            <select id="statusFilter" class="w-full md:w-48 pl-4 pr-8 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-100">
                 <option value="All">All Status</option>
                 <option value="Pending">Pending</option>
                 <option value="Waiting">Waiting</option>
@@ -47,9 +47,9 @@
                 <tbody>
                     @forelse($journals as $journal)
                         <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors journal-row" 
-                            data-search="{{ strtolower(\Carbon\Carbon::parse($journal->tanggal)->format('d M Y')) }} {{ strtolower($journal->user->nama ?? '') }} {{ strtolower($journal->group->nama_grup ?? '') }} {{ strtolower($journal->location->nama_lokasi ?? '') }} {{ strtolower($journal->shift->nama_shift ?? '') }}"
+                            data-search="{{ strtolower(\Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y')) }} {{ strtolower($journal->user->nama ?? '') }} {{ strtolower($journal->group->nama_grup ?? '') }} {{ strtolower($journal->location->nama_lokasi ?? '') }} {{ strtolower($journal->shift->nama_shift ?? '') }}"
                             data-status="{{ $journal->status }}">
-                            <td class="py-3 px-4 text-sm text-gray-600">{{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}</td>
+                            <td class="py-3 px-4 text-sm text-gray-600">{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</td>
                             <td class="py-3 px-4 text-sm text-gray-800 font-medium">{{ $journal->user->nama ?? '-' }}</td>
                             <td class="py-3 px-4 text-sm text-gray-600">{{ $journal->group->nama_grup ?? '-' }}</td>
                             <td class="py-3 px-4 text-sm text-gray-600">{{ $journal->location->nama_lokasi ?? '-' }}</td>
@@ -63,7 +63,7 @@
                                     @endif
                                 @elseif($journal->status === 'Waiting')
                                     @if(auth()->user()->role === 'PGA')
-                                        <button onclick="openFinalApprovalModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" 
+                                        <button onclick="openFinalApprovalModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" 
                                             class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full hover:bg-yellow-200 transition">
                                             Waiting (Approval)
                                         </button>
@@ -89,7 +89,7 @@
                                     <i class="bi bi-file-earmark-pdf text-lg"></i>
                                 </a>
                                 @if(auth()->user()->role === 'PGA')
-                                <button onclick="openDeleteModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->format('d M Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" class="text-red-600 hover:text-red-800 transition" title="Delete Journal">
+                                <button onclick="openDeleteModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" class="text-red-600 hover:text-red-800 transition" title="Delete Journal">
                                     <i class="bi bi-trash text-lg"></i>
                                 </button>
                                 @endif

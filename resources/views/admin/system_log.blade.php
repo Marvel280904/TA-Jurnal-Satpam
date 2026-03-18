@@ -52,7 +52,7 @@
                     @endphp
                     <tr class="hover:bg-gray-50/70 transition">
                         <td class="py-3.5 pr-6 text-gray-700 whitespace-nowrap">
-                            {{ $log->created_at->format('d M Y, H:i') }}
+                            {{ $log->created_at->translatedFormat('d F Y, H:i') }}
                         </td>
                         <td class="py-3.5 pr-6 text-gray-800 font-semibold whitespace-nowrap">
                             {{ $log->user->nama ?? '-' }}

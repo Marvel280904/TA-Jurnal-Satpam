@@ -39,22 +39,6 @@ class Journal extends Model
         return self::all();
     }
 
-    public function viewJournalDetail() {
-        return $this->load(['user', 'group', 'uploads', 'location', 'shift', 'nextShift']);
-    }
-
-    public static function submitJournal($data) {
-        return self::create($data);
-    }
-
-    public function editJournal($data) {
-        return $this->update($data);
-    }
-
-    public function deleteJournal() {
-        return $this->delete();
-    }
-
     public function handoverApproval($userId, $status) {
         $this->handover_by = $userId;
         $this->status = $status;

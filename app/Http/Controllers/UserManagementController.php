@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
 {
-    // ─── Index ───────────────────────────────────────────────────────────────
+    // ─── viewUser ───────────────────────────────────────────────────────────────
 
-    public function index()
+    public function viewUser()
     {
         $users = User::orderBy('role')->get();
         return view('admin.user_management', compact('users'));

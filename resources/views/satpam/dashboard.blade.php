@@ -82,7 +82,7 @@
                 <tbody>
                     @forelse($recent_submissions as $submission)
                         <tr class="border-b border-gray-100 hover:bg-gray-50">
-                            <td class="py-3 px-4 text-md text-gray-600">{{ \Carbon\Carbon::parse($submission->tanggal)->format('d M Y') }}</td>
+                            <td class="py-3 px-4 text-md text-gray-600">{{ \Carbon\Carbon::parse($submission->tanggal)->translatedFormat('d F Y') }}</td>
                             <td class="py-3 px-4 text-md text-gray-800">{{ $submission->user->nama ?? '-' }}</td>
                             <td class="py-3 px-4 text-md text-gray-600">{{ $submission->group->nama_grup ?? '-' }}</td>
                             <td class="py-3 px-4 text-md text-gray-600">{{ $submission->location->nama_lokasi ?? '-' }}</td>

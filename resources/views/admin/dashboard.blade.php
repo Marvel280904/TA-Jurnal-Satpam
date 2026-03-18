@@ -97,7 +97,7 @@
                         <span class="inline-block mt-1 text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded {{ $badgeClass }}">{{ $action }}</span>
                     </div>
                 </div>
-                <span class="text-xs text-gray-400 whitespace-nowrap ml-4">{{ $log->created_at->format('d M Y, H:i') }}</span>
+                <span class="text-xs text-gray-400 whitespace-nowrap ml-4">{{ $log->created_at->translatedFormat('d F Y, H:i') }}</span>
             </div>
             @empty
                 <span class="text-md text-gray-400 whitespace-nowrap">Belum ada aktivitas yang terekam.</span>

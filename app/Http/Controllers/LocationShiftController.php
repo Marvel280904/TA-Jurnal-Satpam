@@ -11,7 +11,7 @@ class LocationShiftController extends Controller
 {
     // ─── Index ───────────────────────────────────────────────────────────────
 
-    public function index()
+    public function view()
     {
         $locations = Location::orderBy('created_at', 'desc')->get();
         $shifts    = Shift::orderBy('created_at', 'desc')->get();

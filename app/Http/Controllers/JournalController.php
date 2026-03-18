@@ -170,7 +170,7 @@ class JournalController extends Controller
         return redirect()->back()->with('success', 'Serah terima berhasil. Status jurnal kini Waiting konfirmasi PGA.');
     }
 
-    public function edit(Journal $journal)
+    public function editJournalData(Journal $journal)
     {
         // Only members of the same group can edit, and only if pending or rejected
         if ($journal->group_id !== Auth::user()->group_id || !in_array($journal->status, ['Pending', 'Rejected'])) {
@@ -189,7 +189,7 @@ class JournalController extends Controller
         return view('satpam.journalEdit', compact('journal', 'locations', 'shifts', 'groups'));
     }
 
-    public function update(Request $request, Journal $journal)
+    public function editJournal(Request $request, Journal $journal)
     {
         if ($journal->group_id !== Auth::user()->group_id || !in_array($journal->status, ['Pending', 'Rejected'])) {
             return redirect()->back()->with('error', 'Akses ditolak.');
