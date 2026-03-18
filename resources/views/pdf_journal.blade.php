@@ -126,7 +126,7 @@
             $absPath   = storage_path('app/public/' . $cleanPath);
             $isImage   = in_array($ext, ['jpg', 'jpeg', 'png', 'gif']);
         @endphp
-        <p class="attachment-name">{{ $upload->file_name }}</p>
+        <!-- <p class="attachment-name">{{ $upload->file_name }}</p> -->
         @if($isImage && file_exists($absPath))
             <img src="{{ $absPath }}" class="attachment-img" alt="{{ $upload->file_name }}">
         @else
