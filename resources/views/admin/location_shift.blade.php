@@ -61,7 +61,8 @@
                                 {{-- Clickable status badge --}}
                                 <form action="{{ route('admin.location.toggle', $loc->id) }}" method="POST" class="inline">
                                     @csrf @method('PATCH')
-                                    <button type="submit"
+                                    <button type="button"
+                                        onclick="openModalStatusConfirm('{{ route('admin.location.toggle', $loc->id) }}', '{{ addslashes($loc->nama_lokasi) }}', 'Lokasi', '{{ $loc->status }}')"
                                         class="px-3 py-1 rounded-lg text-xs font-bold transition
                                             {{ $loc->status === 'Active'
                                                 ? 'bg-green-100 text-green-700 hover:bg-green-200'
@@ -142,7 +143,8 @@
                                 {{-- Clickable status badge --}}
                                 <form action="{{ route('admin.shift.toggle', $shift->id) }}" method="POST" class="inline">
                                     @csrf @method('PATCH')
-                                    <button type="submit"
+                                    <button type="button"
+                                        onclick="openModalStatusConfirm('{{ route('admin.shift.toggle', $shift->id) }}', '{{ addslashes($shift->nama_shift) }}', 'Shift', '{{ $shift->status }}')"
                                         class="px-3 py-1 rounded-lg text-xs font-bold transition
                                             {{ $shift->status === 'Active'
                                                 ? 'bg-green-100 text-green-700 hover:bg-green-200'
@@ -190,6 +192,7 @@
     @include('admin.modals.modal_location')
     @include('admin.modals.modal_shift')
     @include('admin.modals.modal_delete')
+    @include('admin.modals.modal_statusConfirm')
 
 <script>
     function switchTab(tab) {
@@ -305,6 +308,45 @@
 
     function closeModalDelete() {
         const modal = document.getElementById('modalDelete');
+        if(modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
+    /* Modal Status Confirm */
+    function openModalStatusConfirm(actionUrl, name, entity, currentStatus) {
+        const modal = document.getElementById('modalStatusConfirm');
+        const form = document.getElementById('formStatusConfirm');
+        const icon = document.getElementById('statusIcon');
+        const container = document.getElementById('statusIconContainer');
+        const nextStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
+        const btn = document.getElementById('btnStatusConfirm');
+
+        if(modal && form) {
+            form.action = actionUrl;
+            document.getElementById('statusEntityLabel').innerText = entity.toLowerCase();
+            document.getElementById('statusNameLabel').innerText = `"${name}"`;
+            document.getElementById('statusNextLabel').innerText = nextStatus;
+            
+            // UI Tweaks based on next status
+            if (nextStatus === 'Active') {
+                container.className = 'w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4';
+                icon.className = 'bi bi-check-circle text-green-600 text-2xl';
+                btn.className = 'px-5 py-2 text-sm bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition';
+            } else {
+                container.className = 'w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center mx-auto mb-4';
+                icon.className = 'bi bi-exclamation-circle text-yellow-600 text-2xl';
+                btn.className = 'px-5 py-2 text-sm bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    }
+
+    function closeModalStatusConfirm() {
+        const modal = document.getElementById('modalStatusConfirm');
         if(modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');

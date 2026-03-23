@@ -127,7 +127,7 @@ class JournalController extends Controller
         }
 
         return redirect()->route('log-history')
-            ->with('success', 'Journal berhasil disubmit!');
+            ->with('success', 'Jurnal berhasil disubmit!');
     }
 
     public function viewJournalDetail($id)
@@ -135,7 +135,7 @@ class JournalController extends Controller
         $journal = Journal::with(['user', 'group', 'uploads', 'location', 'shift', 'nextShift', 'updater', 'handover', 'approver'])->find($id);
 
         if (!$journal) {
-            return response()->json(['success' => false, 'message' => 'Journal tidak ditemukan.']);
+            return response()->json(['success' => false, 'message' => 'Jurnal tidak ditemukan.']);
         }
 
         // Custom formatting for eager loaded next shift
@@ -167,7 +167,7 @@ class JournalController extends Controller
 
         $journal->handoverApproval($user->id, 'Waiting');
 
-        return redirect()->back()->with('success', 'Serah terima berhasil. Status jurnal kini Waiting konfirmasi PGA.');
+        return redirect()->back()->with('success', 'Serah terima berhasil. Menunggu konfirmasi PGA!');
     }
 
     public function editJournalData(Journal $journal)
@@ -207,7 +207,7 @@ class JournalController extends Controller
             $lokasiName = Location::find($request->lokasi_id)->nama_lokasi ?? 'tercantum';
             return redirect()->back()
                 ->withInput()
-                ->with('error', "Gagal update: Journal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah ada di sistem.");
+                ->with('error', "Gagal update: Jurnal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah ada di sistem.");
         }
 
         $request->validate([
@@ -286,7 +286,7 @@ class JournalController extends Controller
             if ($e->getCode() == '23000') {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'Gagal update: Journal untuk grup Anda pada tanggal ini baru saja diperbarui oleh anggota tim lain. Sistem mencegah duplikasi data.');
+                    ->with('error', 'Gagal update: Jurnal untuk grup Anda pada tanggal ini baru saja diperbarui oleh anggota tim lain. Sistem mencegah duplikasi data.');
             }
             
             return redirect()->back()
@@ -297,7 +297,7 @@ class JournalController extends Controller
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
 
-        return redirect()->route('log-history')->with('success', 'Journal berhasil diperbarui.');
+        return redirect()->route('log-history')->with('success', 'Jurnal berhasil diperbarui!');
     }
 
     public function downloadPDF($id)
@@ -348,7 +348,7 @@ class JournalController extends Controller
 
         $journal->finalApproval(Auth::id(), $status);
 
-        return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '.');
+        return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '!');
     }
 
     public function deleteJournal($id)
@@ -376,6 +376,6 @@ class JournalController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus jurnal: ' . $e->getMessage());
         }
 
-        return redirect()->route('log-history')->with('success', 'Jurnal berhasil dihapus secara permanen.');
+        return redirect()->route('log-history')->with('success', 'Jurnal berhasil dihapus secara permanen!');
     }
 }
