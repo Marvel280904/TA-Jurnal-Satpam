@@ -121,12 +121,12 @@
                 </div>
             </div>
 
-            <form action="{{ route('logout') }}" method="POST">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                 @csrf
-                <button type="submit" class="text-gray-400 hover:text-red-500">
-                    <i class="bi bi-box-arrow-right text-xl"></i>
-                </button>
             </form>
+            <button type="button" onclick="showLogoutModal()" class="text-gray-400 hover:text-red-500 transition-colors">
+                <i class="bi bi-box-arrow-right text-xl"></i>
+            </button>
         </div>
     </header>
 
@@ -227,6 +227,41 @@
         </main>
     </div>
 
+    {{-- Logout Confirmation Modal --}}
+    <div id="logoutModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        {{-- Overlay --}}
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 backdrop-blur-sm transition-opacity" onclick="hideLogoutModal()"></div>
+        
+        {{-- Modal Content --}}
+        <div class="relative bg-white rounded-2xl overflow-hidden shadow-2xl transform transition-all sm:max-w-lg sm:w-full border border-gray-100 z-10">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                        <i class="bi bi-exclamation-triangle text-red-600 text-xl"></i>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900">Konfirmasi Logout</h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">Apakah Anda yakin ingin keluar dari sistem? Anda harus login kembali untuk mengakses dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                <button type="button" 
+                        onclick="document.getElementById('logout-form').submit()"
+                        class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 sm:ml-3 sm:w-auto sm:text-sm transition-all">
+                    Ya, Logout
+                </button>
+                <button type="button" 
+                        onclick="hideLogoutModal()"
+                        class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm transition-all">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 <script>
     // Bell Dropdown Toggle
@@ -242,5 +277,24 @@
             document.getElementById('bellDropdown')?.classList.add('hidden');
         }
     });
+
+    // Logout Modal Logic
+    function showLogoutModal() {
+        const modal = document.getElementById('logoutModal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+        }
+    }
+
+    function hideLogoutModal() {
+        const modal = document.getElementById('logoutModal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = ''; // Restore scroll
+        }
+    }
 </script>
 </html>
