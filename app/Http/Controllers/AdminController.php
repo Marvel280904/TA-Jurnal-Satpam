@@ -20,7 +20,7 @@ class AdminController extends Controller
             'active_shifts' => Shift::where('status', 'Active')->count(),
             'total_groups' => Group::count(),
             'recent_logs' => SystemLog::viewLog()->take(5),
-            'satpam_users' => User::where('role', 'Satpam')->get(),
+            'satpam_users' => User::where('role', 'Satpam')->orderBy('nama')->get(),
         ];
 
         return view('admin.dashboard', $data);

@@ -216,11 +216,35 @@
             const inputNama = document.getElementById('inputNamaGrup');
             const groupIdInput = document.getElementById('inputGroupId');
             const checkboxes = document.querySelectorAll('.satpam-checkbox');
+            const labels = document.querySelectorAll('.satpam-label');
 
             form.reset();
             checkboxes.forEach(cb => {
                 cb.checked = members.includes(cb.value);
             });
+
+            let visibleCount = 0;
+            labels.forEach(label => {
+                const userGroupId = label.getAttribute('data-group-id');
+                if (!userGroupId || userGroupId == id) {
+                    label.classList.remove('hidden');
+                    label.classList.add('flex');
+                    visibleCount++;
+                } else {
+                    label.classList.remove('flex');
+                    label.classList.add('hidden');
+                }
+            });
+
+            const emptyMessage = document.getElementById('emptySatpamMessage');
+            if (emptyMessage) {
+                if (visibleCount === 0) {
+                    emptyMessage.classList.remove('hidden');
+                } else {
+                    emptyMessage.classList.add('hidden');
+                }
+            }
+
             if (inputNama) inputNama.value = nama;
 
             if (!id) {

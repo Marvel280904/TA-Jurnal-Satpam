@@ -56,9 +56,10 @@
                     Anggota Satpam
                 </label>
                 {{-- Scrollable list of Satpam members --}}
-                <div class="border border-gray-300 rounded-lg max-h-48 overflow-y-auto divide-y divide-gray-100">
-                    @forelse($satpam_users as $satpam)
-                        <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition">
+                <div class="border border-gray-300 rounded-lg max-h-48 overflow-y-auto divide-y divide-gray-100 relative">
+                    <p id="emptySatpamMessage" class="hidden text-sm text-gray-400 px-4 py-5 text-center">Tidak ada user Satpam yang tersedia.</p>
+                    @foreach($satpam_users as $satpam)
+                        <label class="satpam-label flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition" data-group-id="{{ $satpam->group_id }}">
                             <input 
                                 type="checkbox" 
                                 name="satpam_ids[]" 
@@ -67,9 +68,7 @@
                                 class="satpam-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
                             <span class="text-sm text-gray-800 font-medium">{{ $satpam->nama }}</span>
                         </label>
-                    @empty
-                        <p class="text-sm text-gray-400 px-4 py-3 text-center">Tidak ada user Satpam tersedia.</p>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_grup');
+            $table->string('nama_grup')->unique();
             $table->timestamps();
         });
 
@@ -29,7 +29,7 @@ return new class extends Migration
 
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lokasi');
+            $table->string('nama_lokasi')->unique();
             $table->text('alamat_lokasi');
             $table->string('status')->default('Active');
             $table->timestamps();
@@ -37,7 +37,7 @@ return new class extends Migration
 
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_shift');
+            $table->string('nama_shift')->unique();
             $table->time('mulai_shift');
             $table->time('selesai_shift');
             $table->string('status')->default('Active');

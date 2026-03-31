@@ -125,11 +125,38 @@
         const inputNama = document.getElementById('inputNamaGrup');
         const groupIdInput = document.getElementById('inputGroupId');
         const checkboxes = document.querySelectorAll('.satpam-checkbox');
+        const labels = document.querySelectorAll('.satpam-label');
 
         form.reset();
         checkboxes.forEach(cb => {
             cb.checked = members.includes(cb.value);
         });
+        
+        // Filter visible satpam based on group assignment
+        let visibleCount = 0;
+        labels.forEach(label => {
+            const userGroupId = label.getAttribute('data-group-id');
+            // Show if it belongs to no group (empty string) OR if it belongs to the currently edited group (id)
+            if (!userGroupId || userGroupId == id) {
+                label.classList.remove('hidden');
+                label.classList.add('flex');
+                visibleCount++;
+            } else {
+                label.classList.remove('flex');
+                label.classList.add('hidden');
+            }
+        });
+
+        // message untuk di tampilkan jika tidak ada satpam yang tersedia
+        const emptyMessage = document.getElementById('emptySatpamMessage');
+        if (emptyMessage) {
+            if (visibleCount === 0) {
+                emptyMessage.classList.remove('hidden');
+            } else {
+                emptyMessage.classList.add('hidden');
+            }
+        }
+
         inputNama.value = nama;
 
         if (id) {

@@ -24,22 +24,23 @@ class LocationShiftController extends Controller
     public function addLocation(Request $request)
     {
         $request->validate([
-            'nama_lokasi'   => 'required|string|max:255',
+            'nama_lokasi'   => 'required|string|unique:locations,nama_lokasi|max:255',
             'alamat_lokasi' => 'required|string',
         ], [
             'nama_lokasi.required'   => 'Nama lokasi wajib diisi.',
+            'nama_lokasi.unique'   => 'Nama lokasi sudah ada.',
             'nama_lokasi.max'   => 'Nama lokasi maksimal 255 karakter.',
             'alamat_lokasi.required' => 'Alamat lokasi wajib diisi.',
         ]);
 
         // Cek duplikasi: nama dan alamat tidak boleh sama
-        $exists = Location::where('nama_lokasi', $request->nama_lokasi)
-            ->where('alamat_lokasi', $request->alamat_lokasi)
-            ->exists();
+        // $exists = Location::where('nama_lokasi', $request->nama_lokasi)
+        //     ->where('alamat_lokasi', $request->alamat_lokasi)
+        //     ->exists();
 
-        if ($exists) {
-            return back()->withErrors(['nama_lokasi' => 'Lokasi dengan nama dan alamat tersebut sudah ada.'])->withInput();
-        }
+        // if ($exists) {
+        //     return back()->withErrors(['nama_lokasi' => 'Lokasi dengan nama dan alamat tersebut sudah ada.'])->withInput();
+        // }
 
         $location = Location::create([
             'nama_lokasi'   => $request->nama_lokasi,
@@ -58,23 +59,24 @@ class LocationShiftController extends Controller
     public function editLocation(Request $request, Location $location)
     {
         $request->validate([
-            'nama_lokasi'   => 'required|string|max:255',
+            'nama_lokasi'   => 'required|string|max:255|unique:locations,nama_lokasi,' . $location->id,
             'alamat_lokasi' => 'required|string',
         ], [
             'nama_lokasi.required'   => 'Nama lokasi wajib diisi.',
+            'nama_lokasi.unique'   => 'Nama lokasi sudah ada.',
             'nama_lokasi.max'   => 'Nama lokasi maksimal 255 karakter.',
             'alamat_lokasi.required' => 'Alamat lokasi wajib diisi.',
         ]);
 
         // Cek duplikasi: nama dan alamat tidak boleh sama (kecuali data ini sendiri)
-        $exists = Location::where('nama_lokasi', $request->nama_lokasi)
-            ->where('alamat_lokasi', $request->alamat_lokasi)
-            ->where('id', '!=', $location->id)
-            ->exists();
+        // $exists = Location::where('nama_lokasi', $request->nama_lokasi)
+        //     ->where('alamat_lokasi', $request->alamat_lokasi)
+        //     ->where('id', '!=', $location->id)
+        //     ->exists();
 
-        if ($exists) {
-            return back()->withErrors(['nama_lokasi' => 'Lokasi dengan nama dan alamat tersebut sudah ada.'])->withInput();
-        }
+        // if ($exists) {
+        //     return back()->withErrors(['nama_lokasi' => 'Lokasi dengan nama dan alamat tersebut sudah ada.'])->withInput();
+        // }
 
         $location->update([
             'nama_lokasi'   => $request->nama_lokasi,
@@ -123,24 +125,24 @@ class LocationShiftController extends Controller
     public function addShift(Request $request)
     {
         $request->validate([
-            'nama_shift'    => 'required|string|max:255',
+            'nama_shift'    => 'required|string|unique:shifts,nama_shift|max:255',
             'mulai_shift'   => 'required',
             'selesai_shift' => 'required',
         ], [
             'nama_shift.required'    => 'Nama shift wajib diisi.',
+            'nama_shift.unique'   => 'Nama shift sudah ada.',
             'nama_shift.max'   => 'Nama shift maksimal 255 karakter.',
             'mulai_shift.required'   => 'Jam mulai shift wajib diisi.',
             'selesai_shift.required' => 'Jam selesai shift wajib diisi.',
         ]);
 
-        // Cek duplikasi: nama, mulai, dan selesai shift tidak boleh sama
-        $exists = Shift::where('nama_shift', $request->nama_shift)
-            ->where('mulai_shift', $request->mulai_shift)
+        // Cek duplikasi: mulai dan selesai shift tidak duplikat
+        $exists = Shift::where('mulai_shift', $request->mulai_shift)
             ->where('selesai_shift', $request->selesai_shift)
             ->exists();
 
         if ($exists) {
-            return back()->withErrors(['nama_shift' => 'Shift dengan nama, jam mulai, dan jam selesai tersebut sudah ada.'])->withInput();
+            return back()->withErrors(['nama_shift' => 'Shift dengan jam mulai dan jam selesai tersebut sudah ada!'])->withInput();
         }
 
         $shift = Shift::create([
@@ -161,25 +163,25 @@ class LocationShiftController extends Controller
     public function editShift(Request $request, Shift $shift)
     {
         $request->validate([
-            'nama_shift'    => 'required|string|max:255',
+            'nama_shift'    => 'required|string|max:255|unique:shifts,nama_shift,' . $shift->id,
             'mulai_shift'   => 'required',
             'selesai_shift' => 'required',
         ], [
             'nama_shift.required'    => 'Nama shift wajib diisi.',
+            'nama_shift.unique'   => 'Nama shift sudah ada.',
             'nama_shift.max'   => 'Nama shift maksimal 255 karakter.',
             'mulai_shift.required'   => 'Jam mulai shift wajib diisi.',
             'selesai_shift.required' => 'Jam selesai shift wajib diisi.',
         ]);
 
-        // Cek duplikasi: nama, mulai, dan selesai shift tidak boleh sama (kecuali data ini sendiri)
-        $exists = Shift::where('nama_shift', $request->nama_shift)
-            ->where('mulai_shift', $request->mulai_shift)
+        // Cek duplikasi: mulai dan selesai shift tidak duplikat (kecuali data ini sendiri)
+        $exists = Shift::where('mulai_shift', $request->mulai_shift)
             ->where('selesai_shift', $request->selesai_shift)
             ->where('id', '!=', $shift->id)
             ->exists();
 
         if ($exists) {
-            return back()->withErrors(['nama_shift' => 'Shift dengan nama, jam mulai, dan jam selesai tersebut sudah ada.'])->withInput();
+            return back()->withErrors(['nama_shift' => 'Shift dengan jam mulai dan jam selesai tersebut sudah ada!'])->withInput();
         }
 
         $shift->update([
