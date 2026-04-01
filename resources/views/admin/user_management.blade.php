@@ -29,6 +29,10 @@
             </thead>
             <tbody class="divide-y divide-gray-300">
                 @forelse($users as $user)
+                @php
+                    // Cek apakah user dilarang dihapus (Diri sendiri ATAU Super Admin)
+                    $isRestricted = ($user->id === auth()->id()) || (isset($superAdmin) && $user->id === $superAdmin->id);
+                @endphp
                 <tr class="hover:bg-gray-50/50 transition">
                     <td class="py-3.5 pr-6 font-semibold text-gray-800">{{ $user->nama }}</td>
                     <td class="py-3.5 pr-6 text-gray-500">{{ $user->username }}</td>
@@ -55,8 +59,8 @@
                             
                             {{-- Delete --}}
                             <button onclick="openModalDelete('/admin/user/{{ $user->id }}', '{{ addslashes($user->nama) }}', 'User')"
-                                class="text-red-400 hover:text-red-600 transition text-base {{ $user->id === auth()->id() ? 'opacity-30 cursor-not-allowed' : '' }}"
-                                @if($user->id === auth()->id()) disabled @endif>
+                                class="text-red-400 hover:text-red-600 transition text-base {{ $isRestricted ? 'opacity-30 cursor-not-allowed' : '' }}"
+                                @if($isRestricted) disabled @endif>
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>

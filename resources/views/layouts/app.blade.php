@@ -223,6 +223,13 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 flex justify-between items-center rounded">
+                    <span><i class="bi bi-exclamation-triangle-fill mr-2"></i>{{ session('error') }}</span>
+                    <button onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>

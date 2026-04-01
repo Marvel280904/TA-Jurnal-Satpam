@@ -14,7 +14,8 @@ class UserManagementController extends Controller
     public function viewUser()
     {
         $users = User::orderBy('role')->get();
-        return view('admin.user_management', compact('users'));
+        $superAdmin = User::where('username', 'admin')->where('nama', 'Administrator')->first();
+        return view('admin.user_management', compact('users', 'superAdmin'));
     }
 
     // ─── Add ─────────────────────────────────────────────────────────────────
@@ -105,6 +106,11 @@ class UserManagementController extends Controller
         // Cegah hapus diri sendiri
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.user-management')->with('error', 'Tidak dapat menghapus akun sendiri!');
+        }
+
+        // Cegah hapus Super Admin
+        if (strtolower($user->username) === 'admin' && $user->nama === 'Administrator') {
+            return redirect()->route('admin.user-management')->with('error', 'Super Admin tidak dapat dihapus!');
         }
 
         $nama = $user->nama;
