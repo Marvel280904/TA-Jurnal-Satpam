@@ -77,7 +77,7 @@ class JournalController extends Controller
             $lokasiName = Location::find($request->lokasi_id)->nama_lokasi ?? 'tercantum';
             return redirect()->back()
                 ->withInput()
-                ->with('error', "Journal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah pernah disubmit.");
+                ->with('error', "Jurnal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah pernah disubmit.");
         }
 
         DB::beginTransaction();
@@ -113,7 +113,7 @@ class JournalController extends Controller
             if ($e->getCode() == '23000') {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'Gagal submit: Journal untuk grup Anda pada tanggal ini baru saja dikirim oleh anggota tim lain. Sistem mencegah duplikasi data.');
+                    ->with('error', 'Gagal submit: Jurnal untuk grup Anda pada tanggal ini baru saja dikirim oleh anggota tim lain. Sistem mencegah duplikasi data.');
             }
             
             return redirect()->back()
