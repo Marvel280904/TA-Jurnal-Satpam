@@ -195,21 +195,6 @@ class JournalController extends Controller
             return redirect()->back()->with('error', 'Akses ditolak.');
         }
 
-        // Cek duplikat (berdasarkan tanggal, lokasi, dan shift), kecualikan jurnal ini sendiri
-        $duplicate = Journal::where('id', '!=', $journal->id)
-            ->whereDate('tanggal', $request->tanggal)
-            ->where('lokasi_id', $request->lokasi_id)
-            ->where('shift_id', $request->shift_id)
-            ->exists();
-
-        if ($duplicate) {
-            $shiftName = Shift::find($request->shift_id)->nama_shift ?? 'terpilih';
-            $lokasiName = Location::find($request->lokasi_id)->nama_lokasi ?? 'tercantum';
-            return redirect()->back()
-                ->withInput()
-                ->with('error', "Gagal update: Jurnal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah ada di sistem.");
-        }
-
         $request->validate([
             'lokasi_id'         => 'required|exists:locations,id',
             'shift_id'          => 'required|exists:shifts,id',
@@ -241,6 +226,21 @@ class JournalController extends Controller
             'files.*.mimes'             => 'Format file tidak didukung. Gunakan PDF, DOC, DOCX, JPG, atau PNG!',
             'files.*.max'               => 'Ukuran file maksimal 10MB!',
         ]);
+
+         // Cek duplikat (berdasarkan tanggal, lokasi, dan shift), kecualikan jurnal ini sendiri
+        $duplicate = Journal::where('id', '!=', $journal->id)
+            ->whereDate('tanggal', $request->tanggal)
+            ->where('lokasi_id', $request->lokasi_id)
+            ->where('shift_id', $request->shift_id)
+            ->exists();
+
+        if ($duplicate) {
+            $shiftName = Shift::find($request->shift_id)->nama_shift ?? 'terpilih';
+            $lokasiName = Location::find($request->lokasi_id)->nama_lokasi ?? 'tercantum';
+            return redirect()->back()
+                ->withInput()
+                ->with('error', "Jurnal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah ada di sistem.");
+        }
 
         DB::beginTransaction();
         try {

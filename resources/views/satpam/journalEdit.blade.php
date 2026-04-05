@@ -11,7 +11,7 @@
         <p class="text-sm text-gray-500 mt-1">Update your operational security journal report</p>
     </div>
 
-    {{-- Error Alert --}}
+    <!-- {{-- Error Alert --}}
     @if(session('error'))
         <div class="mb-5 p-4 bg-red-50 border border-red-200 border-l-4 border-l-red-500 rounded-lg flex items-start gap-3" id="error-alert">
             <i class="bi bi-exclamation-triangle-fill text-red-500 text-lg flex-shrink-0 mt-0.5"></i>
@@ -23,7 +23,7 @@
                 <i class="bi bi-x-lg text-sm"></i>
             </button>
         </div>
-    @endif
+    @endif -->
 
     {{-- Validation Errors --}}
     @if($errors->any())

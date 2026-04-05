@@ -31,6 +31,11 @@
     function openSubmitConfirmModal() {
         const form = document.getElementById('journal-form');
 
+        // Check form validity before showing modal
+        if (!form.reportValidity()) {
+            return;
+        }
+
         // Get values from form
         const dateInput = document.getElementById('tanggal').value;
         const locationSelect = document.getElementById('lokasi_id');
