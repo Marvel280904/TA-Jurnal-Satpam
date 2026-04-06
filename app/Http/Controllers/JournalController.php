@@ -327,6 +327,11 @@ class JournalController extends Controller
 
     public function finalApproval(Request $request, $id)
     {
+        // Security check: Only PGA can approve/reject
+        if (Auth::user()->role !== 'PGA') {
+            return redirect()->back()->with('error', 'Hanya PGA yang dapat melakukan persetujuan akhir.');
+        }
+
         $journal = Journal::findOrFail($id);
 
         // Security check: Only if current status is Waiting
@@ -338,15 +343,17 @@ class JournalController extends Controller
             'status'  => 'required|in:Approved,Rejected',
             'catatan' => 'required_if:status,Rejected|nullable|string',
         ], [
+            'status.required' => 'Status wajib diisi.',
+            'status.in' => 'Status harus Approved atau Rejected.',
             'catatan.required_if' => 'Catatan wajib diisi jika jurnal ditolak.',
+            'catatan.string' => 'Catatan harus berupa teks.',
         ]);
 
         $status = $request->input('status');
         
         $journal->catatan = $request->input('catatan');
-        $journal->save();
-
         $journal->finalApproval(Auth::id(), $status);
+        $journal->save();
 
         return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '!');
     }

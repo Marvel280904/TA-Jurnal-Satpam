@@ -171,6 +171,26 @@
 
         <form id="finalApprovalForm" method="POST" action="">
             @csrf
+            <input type="hidden" name="journal_id" id="finalJournalIdInput" value="">
+            <input type="hidden" name="modal_date" id="finalModalDateInput" value="">
+            <input type="hidden" name="modal_location" id="finalModalLocationInput" value="">
+            <input type="hidden" name="modal_shift" id="finalModalShiftInput" value="">
+
+            @if ($errors->any() && (old('status') || old('catatan') || old('journal_id')))
+                <div id="alertFinalApprovalError" class="mb-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-xs rounded relative shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                        <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-red-500 hover:text-red-800">
+                            <i class="bi bi-x-lg text-sm"></i>
+                        </button>
+                    </div>
+                </div>   
+            @endif
+            
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">Status Konfirmasi <span class="text-red-500">*</span></label>
@@ -295,6 +315,11 @@
         approveLocationText.textContent = location;
         approveShiftText.textContent = shift;
         
+        document.getElementById('finalJournalIdInput').value = journalId;
+        document.getElementById('finalModalDateInput').value = date;
+        document.getElementById('finalModalLocationInput').value = location;
+        document.getElementById('finalModalShiftInput').value = shift;
+
         // Reset form
         finalStatusSelect.value = 'Approved';
         finalCatatanContainer.classList.add('hidden');
@@ -325,5 +350,28 @@
             finalApprovalModal.classList.add('hidden');
         }, 300);
     }
+
+    // Auto-open modal jika ada error validasi
+    window.addEventListener('load', () => {
+        const jId = '{{ old('journal_id') }}';
+        const mDate = '{{ old('modal_date') }}';
+        const mLocation = '{{ old('modal_location') }}';
+        const mShift = '{{ old('modal_shift') }}';
+        if (jId) {
+            openFinalApprovalModal(jId, mDate, mLocation, mShift);
+            // Set the correct status based on old value
+            const oldStatus = '{{ old('status') }}';
+            if (oldStatus) {
+                document.getElementById('finalStatusSelect').value = oldStatus;
+                toggleCatatanTextarea();
+            }
+            
+            // Re-populate catatan if available
+            const oldCatatan = `{!! addslashes(old('catatan', '')) !!}`;
+            if(oldCatatan) {
+                document.getElementById('finalCatatanTextarea').value = oldCatatan;
+            }
+        }
+    });
 </script>
 @endsection
