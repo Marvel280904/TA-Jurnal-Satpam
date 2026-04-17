@@ -28,6 +28,7 @@
                     <tr class="text-left text-gray-700 font-bold border-b border-gray-100">
                         <th class="pb-3 pr-6">Group Name</th>
                         <th class="pb-3 pr-6">Members</th>
+                        <th class="pb-3 pr-6">Status</th>
                         <th class="pb-3 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -44,6 +45,20 @@
                                 <i class="bi bi-people"></i> 
                                 {{ $group->users->count() }} members
                             </button>
+                        </td>
+                        <td class="py-3.5 pr-6">
+                            <form action="{{ route('admin.group.toggle', $group->id) }}" method="POST" class="inline">
+                                @csrf @method('PATCH')
+                                <button type="button"
+                                    onclick="openModalStatusConfirm('{{ route('admin.group.toggle', $group->id) }}', '{{ addslashes($group->nama_grup) }}', 'Group', '{{ $group->status ?? 'Active' }}')"
+                                    class="px-3 py-1 rounded-lg text-xs font-bold transition
+                                        {{ ($group->status ?? 'Active') === 'Active'
+                                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200' }}"
+                                    title="Klik untuk ubah status">
+                                    {{ $group->status ?? 'Active' }}
+                                </button>
+                            </form>
                         </td>
                         <td class="py-3.5 text-right">
                             <div class="flex items-center justify-end gap-3">
@@ -115,6 +130,7 @@
     {{-- ════════════════════════════════════════════════════════════════ --}}
     @include('admin.modals.modal_group')
     @include('admin.modals.modal_delete')
+    @include('admin.modals.modal_statusConfirm')
 
 <script>
     function openModalGroup(id = null, nama = '', members = []) {
@@ -237,6 +253,45 @@
 
     function closeModalDelete() {
         const modal = document.getElementById('modalDelete');
+        if(modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
+    /* Modal Status Confirm */
+    function openModalStatusConfirm(actionUrl, name, entity, currentStatus) {
+        const modal = document.getElementById('modalStatusConfirm');
+        const form = document.getElementById('formStatusConfirm');
+        const icon = document.getElementById('statusIcon');
+        const container = document.getElementById('statusIconContainer');
+        const nextStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
+        const btn = document.getElementById('btnStatusConfirm');
+
+        if(modal && form) {
+            form.action = actionUrl;
+            document.getElementById('statusEntityLabel').innerText = entity.toLowerCase();
+            document.getElementById('statusNameLabel').innerText = `"${name}"`;
+            document.getElementById('statusNextLabel').innerText = nextStatus;
+            
+            // UI Tweaks based on next status
+            if (nextStatus === 'Active') {
+                container.className = 'w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4';
+                icon.className = 'bi bi-check-circle text-green-600 text-2xl';
+                btn.className = 'px-5 py-2 text-sm bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition';
+            } else {
+                container.className = 'w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center mx-auto mb-4';
+                icon.className = 'bi bi-exclamation-circle text-yellow-600 text-2xl';
+                btn.className = 'px-5 py-2 text-sm bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+    }
+
+    function closeModalStatusConfirm() {
+        const modal = document.getElementById('modalStatusConfirm');
         if(modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');

@@ -20,11 +20,16 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->status === 'Inactive') {
+                Auth::logout();
+                return back()->with('error', 'Anda sudah nonaktif!');
+            }
+
             $request->session()->regenerate();
 
             // Redirect berdasarkan Role
-            $user = Auth::user();
-            
             if ($user->role === 'Admin') {
                 return redirect()->intended('/admin/dashboard');
             } elseif ($user->role === 'PGA') {

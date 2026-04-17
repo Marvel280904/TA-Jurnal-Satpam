@@ -24,7 +24,9 @@ class JournalController extends Controller
         $user      = Auth::user();
         
         // Ambil semua group selain group user yang sedang login
-        $groups    = Group::where('id', '!=', $user->group_id)->get();
+        $groups    = Group::where('id', '!=', $user->group_id)
+                            ->where('status', 'Active')
+                            ->get();
 
         return view('satpam.journal_submission', compact('locations', 'shifts', 'groups'));
     }

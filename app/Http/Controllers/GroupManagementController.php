@@ -108,4 +108,20 @@ class GroupManagementController extends Controller
 
         return redirect()->route('admin.group-management')->with('success', 'Grup berhasil dihapus!');
     }
+
+    // ─── Update Status ───────────────────────────────────────────────────────
+
+    public function updateGroupStatus(Group $group)
+    {
+        $group->status = $group->status === 'Active' ? 'Inactive' : 'Active';
+        $group->save();
+
+        SystemLog::recordLog([
+            'user_id'   => auth()->id(),
+            'aksi'      => 'Update',
+            'deskripsi' => "Admin mengubah status grup: {$group->nama_grup} menjadi {$group->status}",
+        ]);
+
+        return redirect()->route('admin.group-management')->with('success', "Status grup diubah menjadi {$group->status}!");
+    }
 }

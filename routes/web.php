@@ -48,12 +48,14 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::get('/admin/user-management', [UserManagementController::class, 'viewUser'])->name('admin.user-management');
         Route::post('/admin/user', [UserManagementController::class, 'addUser'])->name('admin.user.store');
         Route::put('/admin/user/{user}', [UserManagementController::class, 'editUser'])->name('admin.user.update');
+        Route::patch('/admin/user/{user}/toggle', [UserManagementController::class, 'updateUserStatus'])->name('admin.user.toggle');
         Route::delete('/admin/user/{user}', [UserManagementController::class, 'deleteUser'])->name('admin.user.destroy');
 
         // Admin - Group Management
         Route::get('/admin/group-management', [GroupManagementController::class, 'viewGroup'])->name('admin.group-management');
         Route::post('/admin/group', [GroupManagementController::class, 'addGroup'])->name('admin.group.store');
         Route::put('/admin/group/{group}', [GroupManagementController::class, 'editGroup'])->name('admin.group.update');
+        Route::patch('/admin/group/{group}/toggle', [GroupManagementController::class, 'updateGroupStatus'])->name('admin.group.toggle');
         Route::delete('/admin/group/{group}', [GroupManagementController::class, 'deleteGroup'])->name('admin.group.destroy');
 
         // Admin - Location & Shift Management

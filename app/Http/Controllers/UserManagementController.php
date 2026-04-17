@@ -14,8 +14,7 @@ class UserManagementController extends Controller
     public function viewUser()
     {
         $users = User::orderBy('role')->get();
-        $superAdmin = User::where('username', 'admin')->where('nama', 'Administrator')->first();
-        return view('admin.user_management', compact('users', 'superAdmin'));
+        return view('admin.user_management', compact('users'));
     }
 
     // ─── Add ─────────────────────────────────────────────────────────────────
@@ -26,7 +25,7 @@ class UserManagementController extends Controller
             'nama'     => 'required|string|max:255|unique:users,nama',
             'username' => 'required|string|max:255|unique:users,username',
             'password' => 'required|string|min:6',
-            'role'     => 'required|in:Admin,Satpam,PGA',
+            'role'     => 'required|in:Satpam,PGA',
         ], [
             'nama.required' => 'Nama wajib diisi!',
             'nama.max' => 'Nama maksimal 255 karakter!',
@@ -64,7 +63,7 @@ class UserManagementController extends Controller
             'nama'     => 'required|string|max:255|unique:users,nama,' . $user->id,
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:6',
-            'role'     => 'required|in:Admin,Satpam,PGA',
+            'role'     => 'required|in:Satpam,PGA',
         ], [
             'nama.required' => 'Nama wajib diisi!',
             'nama.max' => 'Nama maksimal 255 karakter!',
@@ -108,11 +107,6 @@ class UserManagementController extends Controller
             return redirect()->route('admin.user-management')->with('error', 'Tidak dapat menghapus akun sendiri!');
         }
 
-        // Cegah hapus Super Admin
-        if (strtolower($user->username) === 'admin' && $user->nama === 'Administrator') {
-            return redirect()->route('admin.user-management')->with('error', 'Super Admin tidak dapat dihapus!');
-        }
-
         $nama = $user->nama;
         $user->delete();
 
@@ -123,5 +117,25 @@ class UserManagementController extends Controller
         ]);
 
         return redirect()->route('admin.user-management')->with('success', 'User berhasil dihapus!');
+    }
+
+    // ─── Update Status ───────────────────────────────────────────────────────
+
+    public function updateUserStatus(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.user-management')->with('error', 'Tidak dapat mengubah status akun sendiri!');
+        }
+
+        $user->status = $user->status === 'Active' ? 'Inactive' : 'Active';
+        $user->save();
+
+        SystemLog::recordLog([
+            'user_id'   => auth()->id(),
+            'aksi'      => 'Update',
+            'deskripsi' => "Admin mengubah status user: {$user->username} menjadi {$user->status}",
+        ]);
+
+        return redirect()->route('admin.user-management')->with('success', "Status user diubah menjadi {$user->status}!");
     }
 }

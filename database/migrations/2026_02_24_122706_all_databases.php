@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('nama_grup')->unique();
+            $table->string('status')->default('Active');
             $table->timestamps();
         });
 
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('nama')->unique();
             $table->string('role');
+            $table->string('status')->default('Active');
             $table->foreignId('group_id')->nullable()->constrained('groups')->onDelete('set null');
             $table->timestamps();
         });

@@ -53,7 +53,6 @@
             <div class="mb-5">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
                 <select name="role" id="inputRole" class="w-full p-2.5 border border-gray-300 rounded-lg text-sm" required>
-                    <option value="Admin" {{ old('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
                     <option value="Satpam" {{ old('role') == 'Satpam' ? 'selected' : '' }}>Satpam</option>
                     <option value="PGA" {{ old('role') == 'PGA' ? 'selected' : '' }}>PGA</option>
                 </select>
