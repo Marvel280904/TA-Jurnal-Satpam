@@ -82,12 +82,12 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     {{-- Delete --}}
-                                    <button
+                                    {{-- <button
                                         onclick="openModalDelete('/admin/location/{{ $loc->id }}', '{{ addslashes($loc->nama_lokasi) }}', 'Lokasi')"
                                         class="text-red-400 hover:text-red-600 transition text-base"
                                         title="Hapus">
                                         <i class="bi bi-trash"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </td>
                         </tr>
@@ -164,12 +164,12 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     {{-- Delete --}}
-                                    <button
+                                    {{-- <button
                                         onclick="openModalDelete('/admin/shift/{{ $shift->id }}', '{{ addslashes($shift->nama_shift) }}', 'Shift')"
                                         class="text-red-400 hover:text-red-600 transition text-base"
                                         title="Hapus">
                                         <i class="bi bi-trash"></i>
-                                    </button>
+                                    </button> --}}
                                 </div>
                             </td>
                         </tr>
@@ -291,7 +291,7 @@
     }
 
     /* Modal Delete */
-    function openModalDelete(actionUrl, name, entity) {
+    /* function openModalDelete(actionUrl, name, entity) {
         const modal = document.getElementById('modalDelete');
         const form = document.getElementById('formDelete');
         
@@ -312,7 +312,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-    }
+    } */
 
     /* Modal Status Confirm */
     function openModalStatusConfirm(actionUrl, name, entity, currentStatus) {

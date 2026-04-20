@@ -79,11 +79,11 @@
                             </button>
                             
                             {{-- Delete --}}
-                            <button onclick="openModalDelete('/admin/user/{{ $user->id }}', '{{ addslashes($user->nama) }}', 'User')"
+                            {{-- <button onclick="openModalDelete('/admin/user/{{ $user->id }}', '{{ addslashes($user->nama) }}', 'User')"
                                 class="text-red-400 hover:text-red-600 transition text-base {{ $isRestricted ? 'opacity-30 cursor-not-allowed' : '' }}"
                                 @if($isRestricted) disabled @endif>
                                 <i class="bi bi-trash"></i>
-                            </button>
+                            </button> --}}
                         </div>
                     </td>
                 </tr>
@@ -148,7 +148,7 @@
     }
 
     /* Fungsi Modal Delete */
-    function openModalDelete(actionUrl, name, entity = 'User') {
+    /* function openModalDelete(actionUrl, name, entity = 'User') {
         const modal = document.getElementById('modalDelete');
         const form = document.getElementById('formDelete');
         
@@ -166,7 +166,7 @@
     function closeModalDelete() {
         document.getElementById('modalDelete').classList.add('hidden');
         document.getElementById('modalDelete').classList.remove('flex');
-    }
+    } */
 
     /* Modal Status Confirm */
     function openModalStatusConfirm(actionUrl, name, entity, currentStatus) {

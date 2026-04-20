@@ -17,11 +17,15 @@
         <div class="p-6 overflow-y-auto flex-1 space-y-6">
             
             <!-- Key Info Box -->
-            <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Dibuat Oleh</p>
                     <p class="text-sm text-gray-800 font-medium" id="v_userNama"></p>
                     <p class="text-xs text-gray-500" id="v_groupNama"></p>
+                </div>
+                <div>
+                    <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Anggota Grup</p>
+                    <p class="text-xs text-gray-700 leading-relaxed font-medium" id="v_groupMembers"></p>
                 </div>
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Lokasi & Shift</p>
@@ -150,6 +154,7 @@
                     document.getElementById('v_tanggal').textContent = formatDate(journal.tanggal);
                     document.getElementById('v_userNama').textContent = journal.user.nama;
                     document.getElementById('v_groupNama').textContent = journal.group.nama_grup;
+                    document.getElementById('v_groupMembers').textContent = journal.group_members_names || '-';
                     document.getElementById('v_lokasiNama').textContent = journal.location.nama_lokasi;
                     document.getElementById('v_shiftNama').textContent = journal.shift.nama_shift;
                     document.getElementById('v_nextShiftNama').textContent = journal.next_shift_rel ? journal.next_shift_rel.nama_grup : '-';

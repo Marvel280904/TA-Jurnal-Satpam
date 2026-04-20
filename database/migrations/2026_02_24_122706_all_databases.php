@@ -51,6 +51,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('group_id')->constrained('groups');
+            $table->string('group_member');
             $table->foreignId('lokasi_id')->constrained('locations');
             $table->foreignId('shift_id')->constrained('shifts');
             $table->foreignId('next_shift')->constrained('groups');

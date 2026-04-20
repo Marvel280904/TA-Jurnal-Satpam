@@ -75,12 +75,15 @@ class SatpamController extends Controller
             ->take(5)
             ->get();
 
+        $noGroup = $user->group_id === null;
+
         return view('satpam.dashboard', compact(
             'journals_to_submit',
             'pending_journals',
             'waiting_approval',
             'my_group',
-            'recent_submissions'
+            'recent_submissions',
+            'noGroup'
         ));
     }
 }

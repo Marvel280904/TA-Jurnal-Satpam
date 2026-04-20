@@ -13,7 +13,7 @@ class GroupManagementController extends Controller
 
     public function viewGroup()
     {
-        $groups = Group::with('users')->orderBy('nama_grup')->get();
+        $groups = Group::with('users')->orderBy('status', 'asc')->orderBy('nama_grup')->get();
         // Ambil semua user Satpam untuk checkbox di modal (add/edit)
         $satpam_users = User::where('role', 'Satpam')->orderBy('nama')->get();
         
@@ -91,23 +91,23 @@ class GroupManagementController extends Controller
 
     // ─── Delete ──────────────────────────────────────────────────────────────
 
-    public function deleteGroup(Group $group)
-    {
-        $nama = $group->nama_grup;
-        
-        // Reset member yang ada di grup ini menjadi null
-        User::where('group_id', $group->id)->update(['group_id' => null]);
-        
-        $group->delete();
-
-        SystemLog::recordLog([
-            'user_id'   => auth()->id(),
-            'aksi'      => 'Delete',
-            'deskripsi' => "Admin menghapus grup: {$nama}",
-        ]);
-
-        return redirect()->route('admin.group-management')->with('success', 'Grup berhasil dihapus!');
-    }
+    // public function deleteGroup(Group $group)
+    // {
+    //     $nama = $group->nama_grup;
+    //     
+    //     // Reset member yang ada di grup ini menjadi null
+    //     User::where('group_id', $group->id)->update(['group_id' => null]);
+    //     
+    //     $group->delete();
+    // 
+    //     SystemLog::recordLog([
+    //         'user_id'   => auth()->id(),
+    //         'aksi'      => 'Delete',
+    //         'deskripsi' => "Admin menghapus grup: {$nama}",
+    //     ]);
+    // 
+    //     return redirect()->route('admin.group-management')->with('success', 'Grup berhasil dihapus!');
+    // }
 
     // ─── Update Status ───────────────────────────────────────────────────────
 

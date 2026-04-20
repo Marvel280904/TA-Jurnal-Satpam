@@ -28,7 +28,9 @@ class JournalController extends Controller
                             ->where('status', 'Active')
                             ->get();
 
-        return view('satpam.journal_submission', compact('locations', 'shifts', 'groups'));
+        $noGroup = $user->group_id === null;
+
+        return view('satpam.journal_submission', compact('locations', 'shifts', 'groups', 'noGroup'));
     }
 
     public function submitJournal(Request $request)
@@ -68,6 +70,10 @@ class JournalController extends Controller
         $user     = Auth::user();
         $group_id = $user->group_id;
 
+        // Ambil SEMUA id anggota grup yang sama dengan user yang login
+        $group_member_ids = \App\Models\User::where('group_id', $group_id)->pluck('id')->toArray();
+        $group_members_str = implode(',', $group_member_ids);
+
         // Cek duplikat awal (berdasarkan tanggal, lokasi, dan shift)
         $duplicate = Journal::whereDate('tanggal', $request->tanggal)
             ->where('lokasi_id', $request->lokasi_id)
@@ -88,6 +94,7 @@ class JournalController extends Controller
                 'tanggal'          => $request->tanggal,
                 'user_id'          => $user->id,
                 'group_id'         => $group_id,
+                'group_member'     => $group_members_str,
                 'lokasi_id'        => $request->lokasi_id,
                 'shift_id'         => $request->shift_id,
                 'next_shift'       => $request->next_shift,
@@ -140,14 +147,22 @@ class JournalController extends Controller
             return response()->json(['success' => false, 'message' => 'Jurnal tidak ditemukan.']);
         }
 
-        // Custom formatting for eager loaded next shift
-        $journal->next_shift_rel = $journal->nextShift;
-
-        // Relation mapping assuming relationships exist in User model for these Foreign Keys
-        // If not, we will just use the IDs or manually fetch User::find() on the client mapping
+        // Relation mapping
         $journal->updater = \App\Models\User::find($journal->updated_by);
         $journal->handover = \App\Models\User::find($journal->handover_by);
         $journal->approver = \App\Models\User::find($journal->approved_by);
+
+        // Parse member names from group_member string
+        if ($journal->group_member) {
+            $memberIds = explode(',', $journal->group_member);
+            $memberNames = \App\Models\User::whereIn('id', $memberIds)->pluck('nama')->toArray();
+            $journal->group_members_names = implode(', ', $memberNames);
+        } 
+        // else {
+        //     // Fallback for older journals
+        //     $memberNames = \App\Models\User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
+        //     $journal->group_members_names = implode(', ', $memberNames);
+        // }
 
         return response()->json(['success' => true, 'data' => $journal]);
     }
@@ -310,8 +325,14 @@ class JournalController extends Controller
         $journal->handover = \App\Models\User::find($journal->handover_by);
         $journal->approver = \App\Models\User::find($journal->approved_by);
 
-        // Retrieve group members for current group + next shift
-        $currentGroupMembers = \App\Models\User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
+        // Retrieve group members for current group (from the specific archived list if available) + next shift
+        if ($journal->group_member) {
+            $memberIds = explode(',', $journal->group_member);
+            $currentGroupMembers = \App\Models\User::whereIn('id', $memberIds)->pluck('nama')->toArray();
+        } 
+        // else {
+        //     $currentGroupMembers = \App\Models\User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
+        // }
         $nextShiftMembers = \App\Models\User::where('group_id', $journal->next_shift)->pluck('nama')->toArray();
 
         $data = [

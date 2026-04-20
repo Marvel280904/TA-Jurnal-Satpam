@@ -13,7 +13,7 @@ class UserManagementController extends Controller
 
     public function viewUser()
     {
-        $users = User::orderBy('role')->get();
+        $users = User::orderBy('status', 'asc')->orderBy('role')->get();
         return view('admin.user_management', compact('users'));
     }
 
@@ -100,24 +100,24 @@ class UserManagementController extends Controller
 
     // ─── Delete ──────────────────────────────────────────────────────────────
 
-    public function deleteUser(User $user)
-    {
-        // Cegah hapus diri sendiri
-        if ($user->id === auth()->id()) {
-            return redirect()->route('admin.user-management')->with('error', 'Tidak dapat menghapus akun sendiri!');
-        }
-
-        $nama = $user->nama;
-        $user->delete();
-
-        SystemLog::recordLog([
-            'user_id'   => auth()->id(),
-            'aksi'      => 'Delete',
-            'deskripsi' => "Admin menghapus user: {$nama}",
-        ]);
-
-        return redirect()->route('admin.user-management')->with('success', 'User berhasil dihapus!');
-    }
+    // public function deleteUser(User $user)
+    // {
+    //     // Cegah hapus diri sendiri
+    //     if ($user->id === auth()->id()) {
+    //         return redirect()->route('admin.user-management')->with('error', 'Tidak dapat menghapus akun sendiri!');
+    //     }
+    // 
+    //     $nama = $user->nama;
+    //     $user->delete();
+    // 
+    //     SystemLog::recordLog([
+    //         'user_id'   => auth()->id(),
+    //         'aksi'      => 'Delete',
+    //         'deskripsi' => "Admin menghapus user: {$nama}",
+    //     ]);
+    // 
+    //     return redirect()->route('admin.user-management')->with('success', 'User berhasil dihapus!');
+    // }
 
     // ─── Update Status ───────────────────────────────────────────────────────
 

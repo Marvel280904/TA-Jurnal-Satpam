@@ -13,8 +13,8 @@ class LocationShiftController extends Controller
 
     public function view()
     {
-        $locations = Location::orderBy('created_at', 'desc')->get();
-        $shifts    = Shift::orderBy('created_at', 'desc')->get();
+        $locations = Location::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
+        $shifts    = Shift::orderBy('status', 'asc')->orderBy('created_at', 'desc')->get();
 
         return view('admin.location_shift', compact('locations', 'shifts'));
     }
@@ -106,19 +106,19 @@ class LocationShiftController extends Controller
         return redirect()->route('admin.location-shift')->with('success', "Status lokasi diubah menjadi {$newStatus}!");
     }
 
-    public function deleteLocation(Location $location)
-    {
-        $nama = $location->nama_lokasi;
-        $location->delete();
-
-        SystemLog::recordLog([
-            'user_id'   => auth()->id(),
-            'aksi'      => 'Delete',
-            'deskripsi' => "Admin menghapus lokasi: {$nama}",
-        ]);
-
-        return redirect()->route('admin.location-shift')->with('success', 'Lokasi berhasil dihapus!');
-    }
+    // public function deleteLocation(Location $location)
+    // {
+    //     $nama = $location->nama_lokasi;
+    //     $location->delete();
+    // 
+    //     SystemLog::recordLog([
+    //         'user_id'   => auth()->id(),
+    //         'aksi'      => 'Delete',
+    //         'deskripsi' => "Admin menghapus lokasi: {$nama}",
+    //     ]);
+    // 
+    //     return redirect()->route('admin.location-shift')->with('success', 'Lokasi berhasil dihapus!');
+    // }
 
     // ─── Shift ────────────────────────────────────────────────────────────────
 
@@ -213,17 +213,17 @@ class LocationShiftController extends Controller
         return redirect()->route('admin.location-shift', ['tab' => 'shifts'])->with('success', "Status shift diubah menjadi {$newStatus}!");
     }
 
-    public function deleteShift(Shift $shift)
-    {
-        $nama = $shift->nama_shift;
-        $shift->delete();
-
-        SystemLog::recordLog([
-            'user_id'   => auth()->id(),
-            'aksi'      => 'Delete',
-            'deskripsi' => "Admin menghapus shift: {$nama}",
-        ]);
-
-        return redirect()->route('admin.location-shift', ['tab' => 'shifts'])->with('success', 'Shift berhasil dihapus!');
-    }
+    // public function deleteShift(Shift $shift)
+    // {
+    //     $nama = $shift->nama_shift;
+    //     $shift->delete();
+    // 
+    //     SystemLog::recordLog([
+    //         'user_id'   => auth()->id(),
+    //         'aksi'      => 'Delete',
+    //         'deskripsi' => "Admin menghapus shift: {$nama}",
+    //     ]);
+    // 
+    //     return redirect()->route('admin.location-shift', ['tab' => 'shifts'])->with('success', 'Shift berhasil dihapus!');
+    // }
 }

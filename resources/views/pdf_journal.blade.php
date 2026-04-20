@@ -50,12 +50,12 @@
             <td>{{ $journal->user->nama ?? '-' }}</td>
         </tr>
         <tr>
-            <th>Grup Saat Ini</th>
+            <th>Grup Pengisi</th>
             <td>{{ $journal->group->nama_grup ?? '-' }} <br> <span style="font-size:10px; color:#64748b;">(Anggota: {{ $currentGroupMembers }})</span></td>
         </tr>
         <tr>
             <th>Grup Next Shift</th>
-            <td>{{ $journal->nextShift->nama_grup ?? '-' }} <br> <span style="font-size:10px; color:#64748b;">(Anggota: {{ $nextShiftMembers }})</span></td>
+            <td>{{ $journal->nextShift->nama_grup ?? '-' }} <!-- <br> <span style="font-size:10px; color:#64748b;">(Anggota: {{ $nextShiftMembers }})</span> --></td> 
         </tr>
     </table>
 

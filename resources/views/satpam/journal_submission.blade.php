@@ -3,7 +3,8 @@
 @section('title', 'Journal Submission')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
+<div class="{{ $noGroup ? 'blur-sm pointer-events-none select-none' : '' }}">
+    <div class="max-w-4xl mx-auto">
 
     {{-- Page Header --}}
     <div class="mb-6">
@@ -248,9 +249,30 @@
         </div>
     </form>
 </div>
+</div>
 
 <!-- Include Modal Confirm Submit -->
 @include('modal_submitConfirm')
+
+@if($noGroup)
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-[2px]">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full text-center border border-gray-100">
+        <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="bi bi-exclamation-triangle text-orange-500 text-4xl"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Akses Dibatasi</h2>
+        <p class="text-gray-600 mb-8 leading-relaxed">
+            Anda belum memiliki grup, harap kontak <b>Admin</b> untuk dikelompokan ke dalam grup!
+        </p>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg">
+                Logout
+            </button>
+        </form>
+    </div>
+</div>
+@endif
 
 <script>
     // ── Drag & Drop ────────────────────────────────────────────────────────────

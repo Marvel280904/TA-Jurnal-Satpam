@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Journal extends Model
 {
     protected $fillable = [
-        'tanggal', 'user_id', 'group_id', 'lokasi_id', 'shift_id', 'next_shift',
+        'tanggal', 'user_id', 'group_id', 'group_member', 'lokasi_id', 'shift_id', 'next_shift',
         'laporan_kegiatan', 'kejadian_temuan', 'lembur', 'proyek_vendor', 
         'barang_inven', 'info_tambahan', 'status', 'updated_by', 'handover_by', 
         'approved_by', 'catatan'

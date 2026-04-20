@@ -74,12 +74,12 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                                 {{-- Delete --}}
-                                <button
+                                {{-- <button
                                     onclick="openModalDelete('/admin/group/{{ $group->id }}', '{{ addslashes($group->nama_grup) }}', 'Group')"
                                     class="text-red-400 hover:text-red-600 transition text-base"
                                     title="Hapus">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </button> --}}
                             </div>
                         </td>
                     </tr>
@@ -236,7 +236,7 @@
         document.getElementById('modalViewMembers').classList.remove('flex');
     }
 
-    function openModalDelete(actionUrl, name, entity = 'Group') {
+    /* function openModalDelete(actionUrl, name, entity = 'Group') {
         const modal = document.getElementById('modalDelete');
         const form = document.getElementById('formDelete');
         
@@ -257,7 +257,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-    }
+    } */
 
     /* Modal Status Confirm */
     function openModalStatusConfirm(actionUrl, name, entity, currentStatus) {
