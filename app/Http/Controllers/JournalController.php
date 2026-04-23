@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use App\Models\Location;
 use App\Models\Shift;
 use App\Models\Group;
@@ -71,7 +72,12 @@ class JournalController extends Controller
         $group_id = $user->group_id;
 
         // Ambil SEMUA id anggota grup yang sama dengan user yang login
-        $group_member_ids = \App\Models\User::where('group_id', $group_id)->pluck('id')->toArray();
+        $group_member_ids = User::where('group_id', $group_id)
+                            ->where('status', 'Active')
+                            ->pluck('id')
+                            ->toArray();
+
+        // Format sebagai string "1,2,3" untuk disimpan ke database
         $group_members_str = implode(',', $group_member_ids);
 
         // Cek duplikat awal (berdasarkan tanggal, lokasi, dan shift)
@@ -147,20 +153,23 @@ class JournalController extends Controller
             return response()->json(['success' => false, 'message' => 'Jurnal tidak ditemukan.']);
         }
 
+        // Group next shift
+        $journal->next_shift_rel = $journal->nextShift;
+
         // Relation mapping
-        $journal->updater = \App\Models\User::find($journal->updated_by);
-        $journal->handover = \App\Models\User::find($journal->handover_by);
-        $journal->approver = \App\Models\User::find($journal->approved_by);
+        $journal->updater = User::find($journal->updated_by);
+        $journal->handover = User::find($journal->handover_by);
+        $journal->approver = User::find($journal->approved_by);
 
         // Parse member names from group_member string
         if ($journal->group_member) {
             $memberIds = explode(',', $journal->group_member);
-            $memberNames = \App\Models\User::whereIn('id', $memberIds)->pluck('nama')->toArray();
+            $memberNames = User::whereIn('id', $memberIds)->pluck('nama')->toArray();
             $journal->group_members_names = implode(', ', $memberNames);
         } 
         // else {
         //     // Fallback for older journals
-        //     $memberNames = \App\Models\User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
+        //     $memberNames = User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
         //     $journal->group_members_names = implode(', ', $memberNames);
         // }
 
@@ -321,24 +330,24 @@ class JournalController extends Controller
     {
         $journal = Journal::with(['user', 'group', 'location', 'shift', 'nextShift', 'updater', 'handover', 'approver'])->findOrFail($id);
         
-        $journal->updater = \App\Models\User::find($journal->updated_by);
-        $journal->handover = \App\Models\User::find($journal->handover_by);
-        $journal->approver = \App\Models\User::find($journal->approved_by);
+        $journal->updater = User::find($journal->updated_by);
+        $journal->handover = User::find($journal->handover_by);
+        $journal->approver = User::find($journal->approved_by);
 
         // Retrieve group members for current group (from the specific archived list if available) + next shift
         if ($journal->group_member) {
             $memberIds = explode(',', $journal->group_member);
-            $currentGroupMembers = \App\Models\User::whereIn('id', $memberIds)->pluck('nama')->toArray();
+            $currentGroupMembers = User::whereIn('id', $memberIds)->pluck('nama')->toArray();
         } 
         // else {
-        //     $currentGroupMembers = \App\Models\User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
+        //     $currentGroupMembers = User::where('group_id', $journal->group_id)->pluck('nama')->toArray();
         // }
-        $nextShiftMembers = \App\Models\User::where('group_id', $journal->next_shift)->pluck('nama')->toArray();
+        // $nextShiftMembers = User::where('group_id', $journal->next_shift)->pluck('nama')->toArray();
 
         $data = [
             'journal'             => $journal,
             'currentGroupMembers' => implode(', ', $currentGroupMembers),
-            'nextShiftMembers'    => implode(', ', $nextShiftMembers),
+            // 'nextShiftMembers'    => implode(', ', $nextShiftMembers),
             'uploads'             => $journal->uploads()->get(),
         ];
 

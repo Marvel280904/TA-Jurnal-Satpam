@@ -29,17 +29,18 @@ class PGAController extends Controller
 
         // Journal Submissions Last 7 Days
         $last_7_days_data = [];
-        for ($i = 6; $i >= 0; $i--) {
+        for ($i = 0; $i <= 6; $i++) {
             $date = Carbon::today()->subDays($i);
             $count = Journal::whereDate('tanggal', $date)->count();
             $last_7_days_data[] = [
-                'date' => $date->format('d M'),
+                'date' => $date->format('d F'),
                 'count' => $count
             ];
         }
 
         // Most Active Groups
         $most_active_groups = Group::withCount('users')
+            ->where('status', 'Active')
             ->withCount('journals')
             ->orderBy('journals_count', 'desc')
             ->take(5)
@@ -47,6 +48,7 @@ class PGAController extends Controller
 
         // Most Active Users
         $most_active_users = User::where('role', 'Satpam')
+            ->where('status', 'Active')
             ->with('group')
             ->withCount('journals')
             ->orderBy('journals_count', 'desc')

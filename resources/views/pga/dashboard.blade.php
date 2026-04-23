@@ -90,77 +90,49 @@
         </div>
     </div>
 
-    <!-- Charts Section -->
+    <!-- 2-Column Grid: Most Active Users & Most Active Groups -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        <!-- Left Column: Last 7 Days Chart & Most Active Users -->
-        <div class="space-y-6">
-            <!-- Journal Submissions (Last 7 Days) -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <h2 class="text-lg font-bold text-gray-800 mb-6">Journal Submissions (Last 7 Days)</h2>
-                
-                @php
-                    $max_submissions = max(array_column($last_7_days_data, 'count'));
-                    if($max_submissions == 0) $max_submissions = 1; // Prevent division by zero
-                @endphp
-
-                <div class="space-y-4">
-                    @foreach($last_7_days_data as $data)
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 text-sm text-gray-600 whitespace-nowrap">{{ $data['date'] }}</div>
-                            <div class="flex-grow bg-gray-100 rounded-full h-5 relative overflow-hidden">
-                                <div class="bg-[#1a56db] h-full rounded-full transition-all duration-500 ease-out" 
-                                     style="width: {{ ($data['count'] / $max_submissions) * 100 }}%">
-                                </div>
-                            </div>
-                            <div class="w-6 text-right font-bold text-gray-800">{{ $data['count'] }}</div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
+        <!-- Left Column: Most Active Users -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <i class="bi bi-person text-blue-600"></i> Most Active Users
+            </h2>
             
-            <!-- Most Active Users -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                    <i class="bi bi-person text-blue-600"></i> Most Active Users
-                </h2>
-                
-                @php
-                    $max_user_submissions = $most_active_users->max('journals_count');
-                    if($max_user_submissions == 0) $max_user_submissions = 1;
-                @endphp
+            @php
+                $max_user_submissions = $most_active_users->max('journals_count');
+                if($max_user_submissions == 0) $max_user_submissions = 1;
+            @endphp
 
-                <div class="space-y-5">
-                    @forelse($most_active_users as $index => $user)
-                        <div class="flex items-center gap-4">
-                            <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 font-bold flex items-center justify-center flex-shrink-0 text-sm border border-blue-100">
-                                {{ $index + 1 }}
-                            </div>
-                            <div class="flex-grow">
-                                <p class="text-sm font-bold text-gray-800 mb-0.5">{{ $user->nama }}</p>
-                                <div class="flex items-center gap-2 w-full">
-                                    <div class="flex-grow bg-blue-50 rounded-full h-4 relative overflow-hidden border border-blue-100">
-                                        <div class="bg-blue-600 h-full transition-all duration-500 ease-out rounded-full flex items-center" 
-                                            style="width: {{ ($user->journals_count / $max_user_submissions) * 100 }}%">
-                                            <span class="text-[10px] pl-2 text-white font-bold leading-none">{{ $user->journals_count }} journals</span>
-                                        </div>
+            <div class="space-y-5">
+                @forelse($most_active_users as $index => $user)
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 font-bold flex items-center justify-center flex-shrink-0 text-sm border border-blue-100">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="flex-grow">
+                            <p class="text-sm font-bold text-gray-800 mb-0.5">{{ $user->nama }}</p>
+                            <div class="flex items-center gap-2 w-full">
+                                <div class="flex-grow bg-blue-50 rounded-full h-4 relative overflow-hidden border border-blue-100">
+                                    <div class="bg-blue-600 h-full transition-all duration-500 ease-out rounded-full flex items-center" 
+                                        style="width: {{ ($user->journals_count / $max_user_submissions) * 100 }}%">
+                                        <!-- <span class="text-[10px] pl-2 text-white font-bold leading-none">{{ $user->journals_count }} journals</span> -->
                                     </div>
-                                    <div class="text-right flex flex-col justify-end min-w-[50px]">
-                                        <span class="font-bold text-gray-800 leading-none text-right">{{ $user->journals_count }}</span>
-                                        <span class="text-[10px] text-gray-500 leading-none text-right mt-0.5">journals</span>
-                                    </div>
+                                </div>
+                                <div class="text-right flex flex-col justify-end min-w-[50px]">
+                                    <span class="font-bold text-gray-800 leading-none text-right">{{ $user->journals_count }}</span>
+                                    <span class="text-[10px] text-gray-500 leading-none text-right mt-0.5">journals</span>
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <p class="text-sm text-gray-500 text-center py-4">No active users yet.</p>
-                    @endforelse
-                </div>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-500 text-center py-4">No active users yet.</p>
+                @endforelse
             </div>
         </div>
 
         <!-- Right Column: Most Active Groups -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 h-fit">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <h2 class="text-lg font-bold text-gray-800 mb-4">Most Active Groups</h2>
             
             <div class="space-y-4">
@@ -179,6 +151,30 @@
                     <p class="text-sm text-gray-500 text-center py-4">No active groups yet.</p>
                 @endforelse
             </div>
+        </div>
+    </div>
+
+    <!-- Journal Submissions (Last 7 Days) - Full Width -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-bold text-gray-800 mb-6">Journal Submissions (Last 7 Days)</h2>
+        
+        @php
+            $max_submissions = count($last_7_days_data) > 0 ? max(array_column($last_7_days_data, 'count')) : 0;
+            if($max_submissions == 0) $max_submissions = 1; // Prevent division by zero
+        @endphp
+
+        <div class="space-y-4">
+            @foreach($last_7_days_data as $data)
+                <div class="flex items-center gap-4">
+                    <div class="w-14 text-sm text-gray-600 whitespace-nowrap">{{ $data['date'] }}</div>
+                    <div class="flex-grow bg-gray-100 rounded-full h-5 relative overflow-hidden">
+                        <div class="bg-[#1a56db] h-full rounded-full transition-all duration-500 ease-out" 
+                             style="width: {{ ($data['count'] / $max_submissions) * 100 }}%">
+                        </div>
+                    </div>
+                    <div class="w-6 text-right font-bold text-gray-800">{{ $data['count'] }}</div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>

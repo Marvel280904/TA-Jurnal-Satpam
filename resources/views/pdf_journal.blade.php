@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <th>Grup Next Shift</th>
-            <td>{{ $journal->nextShift->nama_grup ?? '-' }} <!-- <br> <span style="font-size:10px; color:#64748b;">(Anggota: {{ $nextShiftMembers }})</span> --></td> 
+            <td>{{ $journal->nextShift->nama_grup ?? '-' }}</td> 
         </tr>
     </table>
 
