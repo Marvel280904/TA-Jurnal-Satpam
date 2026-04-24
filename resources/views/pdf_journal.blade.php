@@ -7,15 +7,15 @@
         body { font-family: sans-serif; font-size: 12px; color: #333; line-height: 1.5; }
         .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 10px; margin-bottom: 20px; }
         .header h1 { margin: 0; color: #1e3a8a; font-size: 20px; text-transform: uppercase; }
-        .header p { margin: 5px 0 0; color: #64748b; font-size: 11px; }
+        .header p { margin: 5px 0 0; color: black; font-size: 11px; }
         .section-title { font-size: 14px; color: #2563eb; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin-top: 20px; margin-bottom: 10px; font-weight: bold; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
         table th, table td { padding: 8px; border: 1px solid #cbd5e1; text-align: left; }
         table th { background-color: #f8fafc; color: #475569; width: 30%; font-weight: bold; }
         .content-box { border: 1px solid #e2e8f0; background-color: #f8fafc; padding: 10px; margin-bottom: 15px; min-height: 50px; border-radius: 4px; }
-        .footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+        .footer { margin-top: 30px; text-align: center; font-size: 11px; color: black; border-top: 1px solid #e2e8f0; padding-top: 10px; }
         .attachment-img { max-width: 100%; max-height: 400px; margin-bottom: 15px; display: block; }
-        .attachment-name { font-size: 10px; color: #64748b; margin-bottom: 5px; }
+        .attachment-name { font-size: 10px; color: black; margin-bottom: 5px; }
         .attachment-doc { border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 4px; background: #f8fafc; font-size: 11px; color: #475569; margin-bottom: 10px; }
     </style>
 </head>
@@ -24,7 +24,7 @@
     <div class="header">
         <img src="{{ public_path('logo-aica.png') }}" style="width: 150px; margin-bottom: 10px;">
         <h1>Laporan Jurnal Keamanan Operasional PT AICA INDRIA</h1>
-        <p>Dicetak pada: {{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM Y HH:mm') }} | Status: <strong>{{ strtoupper($journal->status) }}</strong></p>
+        <p>Dibuat Pada: {{ \Carbon\Carbon::parse($journal->created_at)->locale('id')->isoFormat('D MMMM Y HH:mm') }} | Status: <strong>{{ strtoupper($journal->status) }}</strong></p>
     </div>
 
     <div class="section-title">Informasi Dasar</div>
@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <th>Grup Pengisi</th>
-            <td>{{ $journal->group->nama_grup ?? '-' }} <br> <span style="font-size:10px; color:#64748b;">(Anggota: {{ $currentGroupMembers }})</span></td>
+            <td>{{ $journal->group->nama_grup ?? '-' }} <br> <span style="font-size:10px; color:black;">(Anggota: {{ $currentGroupMembers }})</span></td>
         </tr>
         <tr>
             <th>Grup Next Shift</th>
@@ -103,16 +103,16 @@
     <div class="section-title">Riwayat Persetujuan</div>
     <table>
         <tr>
-            <th>Diperbarui Oleh</th>
-            <td>{{ $journal->updater?->nama ?? 'Tidak Ada' }}</td>
+            <th>Diperbarui oleh</th>
+            <td>{{ $journal->updater?->nama ?? 'Tidak Ada' }} - {{ $journal->updated_at ? \Carbon\Carbon::parse($journal->updated_at)->locale('id')->isoFormat('D MMMM Y HH:mm') : 'Belum Pernah' }}</td>
         </tr>
         <tr>
-            <th>Diserahterimakan Oleh</th>
-            <td>{{ $journal->handover?->nama ?? 'Tidak Ada' }}</td>
+            <th>Serah Terima oleh</th>
+            <td>{{ $journal->handover?->nama ?? 'Tidak Ada' }} - {{ $journal->handover_at ? \Carbon\Carbon::parse($journal->handover_at)->locale('id')->isoFormat('D MMMM Y HH:mm') : 'Belum Pernah' }}</td>
         </tr>
         <tr>
-            <th>Disetujui Oleh (PGA)</th>
-            <td>{{ $journal->approver?->nama ?? 'Tidak Ada' }}</td>
+            <th>Persetujuan Akhir oleh</th>
+            <td>{{ $journal->approver?->nama ?? 'Tidak Ada' }} - {{ $journal->approved_at ? \Carbon\Carbon::parse($journal->approved_at)->locale('id')->isoFormat('D MMMM Y HH:mm') : 'Belum Pernah' }}</td>
         </tr>
     </table>
 

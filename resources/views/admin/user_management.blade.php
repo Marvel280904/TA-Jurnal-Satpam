@@ -34,9 +34,9 @@
                     // Cek apakah user dilarang dihapus (Diri sendiri)
                     $isRestricted = ($user->id === auth()->id());
                 @endphp
-                <tr class="hover:bg-gray-50/50 transition">
-                    <td class="py-3.5 pr-6 font-semibold text-gray-800">{{ $user->nama }}</td>
-                    <td class="py-3.5 pr-6 text-gray-500">{{ $user->username }}</td>
+                <tr class="hover:bg-gray-50/50 transition text-black">
+                    <td class="py-3.5 pr-6 font-semibold">{{ $user->nama }}</td>
+                    <td class="py-3.5 pr-6">{{ $user->username }}</td>
                     <td class="py-3.5 pr-6">
                         @php
                             $roleColor = match($user->role) {

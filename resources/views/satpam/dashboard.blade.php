@@ -9,7 +9,7 @@
             <!-- Journals to Submit Today -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 mb-1">Journals to Submit Today</p>
+                    <p class="text-sm text-black mb-1">Journals to Submit Today</p>
                     <p class="text-3xl font-bold text-gray-800">{{ $journals_to_submit }}</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
@@ -20,7 +20,7 @@
             <!-- Pending Journals -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 mb-1">Pending Journals</p>
+                    <p class="text-sm text-black mb-1">Pending Journals</p>
                     <p class="text-3xl font-bold text-gray-800">{{ $pending_journals }}</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-500 flex items-center justify-center">
@@ -31,7 +31,7 @@
             <!-- Waiting Approval -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
                 <div>
-                    <p class="text-sm text-gray-500 mb-1">Waiting Approval</p>
+                    <p class="text-sm text-black mb-1">Waiting Approval</p>
                     <p class="text-3xl font-bold text-gray-800">{{ $waiting_approval }}</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center">
@@ -82,13 +82,13 @@
                     </thead>
                     <tbody>
                         @forelse($recent_submissions as $submission)
-                            <tr class="border-b border-gray-100 hover:bg-gray-50">
-                                <td class="py-3 px-4 text-md text-gray-600">{{ \Carbon\Carbon::parse($submission->tanggal)->translatedFormat('d F Y') }}</td>
-                                <td class="py-3 px-4 text-md text-gray-800">{{ $submission->user->nama ?? '-' }}</td>
-                                <td class="py-3 px-4 text-md text-gray-600">{{ $submission->group->nama_grup ?? '-' }}</td>
-                                <td class="py-3 px-4 text-md text-gray-600">{{ $submission->location->nama_lokasi ?? '-' }}</td>
-                                <td class="py-3 px-4 text-md text-gray-600">{{ $submission->shift->nama_shift ?? '-' }}</td>
-                                <td class="py-3 px-4 text-md text-gray-600">{{ $submission->nextShift->nama_grup ?? '-' }}</td>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 text-black">
+                                <td class="py-3 px-4 text-md">{{ \Carbon\Carbon::parse($submission->tanggal)->translatedFormat('d F Y') }}</td>
+                                <td class="py-3 px-4 text-md">{{ $submission->user->nama ?? '-' }}</td>
+                                <td class="py-3 px-4 text-md">{{ $submission->group->nama_grup ?? '-' }}</td>
+                                <td class="py-3 px-4 text-md">{{ $submission->location->nama_lokasi ?? '-' }}</td>
+                                <td class="py-3 px-4 text-md">{{ $submission->shift->nama_shift ?? '-' }}</td>
+                                <td class="py-3 px-4 text-md">{{ $submission->nextShift->nama_grup ?? '-' }}</td>
                                 <td class="py-3 px-4">
                                     @if($submission->status === 'Pending')
                                         <span class="px-3 py-1 bg-gray-100 text-gray-700 text-md font-bold rounded-full">{{ $submission->status }}</span>
@@ -120,7 +120,7 @@
             <i class="bi bi-exclamation-triangle text-orange-500 text-4xl"></i>
         </div>
         <h2 class="text-2xl font-bold text-gray-800 mb-3">Akses Dibatasi</h2>
-        <p class="text-gray-600 mb-8 leading-relaxed">
+        <p class="text-black mb-8 leading-relaxed">
             Anda belum memiliki grup, harap kontak <b>Admin</b> untuk dikelompokan ke dalam grup!
         </p>
         <form action="{{ route('logout') }}" method="POST">

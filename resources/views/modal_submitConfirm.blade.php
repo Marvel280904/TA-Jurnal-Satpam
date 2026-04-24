@@ -5,11 +5,11 @@
             <h3 class="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
                 <i class="bi bi-question-circle text-blue-500"></i> Konfirmasi Jurnal
             </h3>
-            <p class="text-gray-600 text-sm mb-4">
+            <p class="text-black text-md mb-4">
                 Apakah anda yakin ingin mengumpulkan jurnal tanggal <span id="confirmDate" class="font-bold text-gray-800"></span> untuk lokasi <span id="confirmLocation" class="font-bold text-gray-800"></span> - shift <span id="confirmShift" class="font-bold text-gray-800"></span>?
             </p>
             <div class="bg-red-50 border border-red-100 p-3 rounded-lg mb-6">
-                <p class="text-xs text-red-800 flex items-start gap-2">
+                <p class="text-sm text-red-800 flex items-start gap-2">
                     <i class="bi bi-info-circle-fill mt-0.5"></i>
                     <span>Mohon di cek sekali lagi apakah data yang diisi sudah benar agar tidak ada kesalahan.</span>
                 </p>
@@ -45,7 +45,7 @@
         if(dateInput) {
             const d = new Date(dateInput);
             // Format to DD/MM/YYYY optionally, or standard local
-            formattedDate = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            formattedDate = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
         } else {
             formattedDate = "[-]";
         }

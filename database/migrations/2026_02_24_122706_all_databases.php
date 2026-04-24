@@ -71,7 +71,10 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->text('catatan')->nullable();
             
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('handover_at')->nullable();
+            $table->timestamp('approved_at')->nullable();
 
             // UNIQUE CONSTRAINT untuk mencegah race condition
             // Memastikan 1 grup hanya bisa punya 1 jurnal per tanggal,lokasi, dan shift

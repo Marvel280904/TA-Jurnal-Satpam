@@ -31,7 +31,7 @@
                         PGA Dashboard
                     @endif
                 </p>
-                <p class="text-xs text-gray-500 hidden sm:block">Sistem Jurnal Operasional Keamanan</p>
+                <p class="text-xs text-black hidden sm:block">Sistem Jurnal Operasional Keamanan</p>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
             @if(auth()->user()->role === 'Satpam' || auth()->user()->role === 'PGA')
                 <div class="relative" id="bellWrapper">
                     <button id="bellBtn" onclick="toggleBellDropdown()" class="relative text-gray-400 hover:text-blue-600 focus:outline-none">
-                        <i class="bi bi-bell text-xl"></i>
+                        <i class="bi bi-bell text-xl text-black"></i>
                         @if($journalReminders->count() > 0)
                             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                                 {{ $journalReminders->count() }}
@@ -63,9 +63,9 @@
                                             </div>
                                             <div>
                                                 <p class="text-xs font-bold text-red-700 mb-0.5">Harap revisi Jurnal</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
                                             </div>
                                         @elseif($reminder['type'] === 'handover')
                                             <div class="mt-0.5 w-7 h-7 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0">
@@ -73,9 +73,9 @@
                                             </div>
                                             <div>
                                                 <p class="text-xs font-bold text-blue-700 mb-0.5">Harap Serah Terima Jurnal</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
                                             </div>
                                         @elseif($reminder['type'] === 'waiting')
                                             <div class="mt-0.5 w-7 h-7 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center flex-shrink-0">
@@ -83,9 +83,9 @@
                                             </div>
                                             <div>
                                                 <p class="text-xs font-bold text-yellow-700 mb-0.5">Harap Melakukan Persetujuan Jurnal</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
                                             </div>
                                         @else
                                             <div class="mt-0.5 w-7 h-7 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center flex-shrink-0">
@@ -93,15 +93,15 @@
                                             </div>
                                             <div>
                                                 <p class="text-xs font-bold text-gray-800 mb-0.5">Harap kumpulkan Jurnal</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
-                                                <p class="text-xs text-gray-600"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Tanggal:</span> {{ $reminder['tanggal'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Lokasi:</span> {{ $reminder['lokasi'] }}</p>
+                                                <p class="text-xs text-black"><span class="font-semibold">Shift:</span> {{ $reminder['shift'] }}</p>
                                             </div>
                                         @endif
                                     </div>
                                 </div>
                             @empty
-                                <div class="px-4 py-6 text-center text-gray-400 text-sm">
+                                <div class="px-4 py-6 text-center text-black text-sm">
                                     <i class="bi bi-check-circle text-2xl block mb-2 text-green-400"></i>
                                     Tidak ada reminder saat ini.
                                 </div>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="hidden sm:block">
                     <p class="text-sm font-bold text-gray-800 leading-tight">{{ auth()->user()->nama }}</p>
-                    <p class="text-xs text-gray-500">{{ auth()->user()->role }}</p>
+                    <p class="text-xs text-black-500">{{ auth()->user()->role }}</p>
                 </div>
             </div>
 
@@ -249,7 +249,7 @@
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <h3 class="text-lg leading-6 font-bold text-gray-900">Konfirmasi Logout</h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500">Apakah Anda yakin ingin keluar dari sistem? Anda harus login kembali untuk mengakses dashboard.</p>
+                            <p class="text-md text-black">Apakah Anda yakin ingin keluar dari sistem? Anda harus login kembali untuk mengakses dashboard.</p>
                         </div>
                     </div>
                 </div>

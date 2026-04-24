@@ -6,7 +6,7 @@
         <div class="flex items-center justify-between p-6 border-b border-gray-100">
             <div>
                 <h2 class="text-xl font-bold text-gray-800">Detail Jurnal</h2>
-                <p class="text-sm text-gray-500 mt-1">Tanggal: <span id="v_tanggal" class="font-medium"></span></p>
+                <p class="text-sm text-black mt-1">Tanggal: <span id="v_tanggal" class="font-medium"></span></p>
             </div>
             <button onclick="closeViewModal()" class="text-black hover:text-red-500 transition-colors bg-gray-50 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center">
                 <i class="bi bi-x-lg"></i>
@@ -20,21 +20,21 @@
             <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Dibuat Oleh</p>
-                    <p class="text-sm text-gray-800 font-medium" id="v_userNama"></p>
-                    <p class="text-xs text-gray-500" id="v_groupNama"></p>
+                    <p class="text-sm text-black font-medium" id="v_userNama"></p>
+                    <p class="text-sm text-black font-medium" id="v_groupNama"></p>
                 </div>
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Anggota Grup</p>
-                    <p class="text-xs text-gray-700 leading-relaxed font-medium" id="v_groupMembers"></p>
+                    <p class="text-sm text-black leading-relaxed font-medium" id="v_groupMembers"></p>
                 </div>
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Lokasi & Shift</p>
-                    <p class="text-sm text-gray-800 font-medium" id="v_lokasiNama"></p>
-                    <p class="text-xs text-gray-500" id="v_shiftNama"></p>
+                    <p class="text-sm text-black font-medium" id="v_lokasiNama"></p>
+                    <p class="text-sm text-black font-medium" id="v_shiftNama"></p>
                 </div>
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Next Shift</p>
-                    <p class="text-sm text-gray-800 font-medium" id="v_nextShiftNama"></p>
+                    <p class="text-sm text-black font-medium" id="v_nextShiftNama"></p>
                 </div>
                 <div>
                     <p class="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1">Status</p>
@@ -43,10 +43,11 @@
             </div>
 
             <div id="v_approvalInfo" class="hidden">
-                 <div class="border-l-4 border-yellow-400 bg-yellow-50 p-3 rounded-r-lg text-sm text-gray-700">
-                     <p><span class="font-bold">Diperbarui Oleh:</span> <span id="v_updatedBy"></span></p>
-                     <p><span class="font-bold">Serah Terima Oleh:</span> <span id="v_handoverBy"></span></p>
-                     <p><span class="font-bold">Persetujuan Akhir Oleh (PGA):</span> <span id="v_approvedBy"></span></p>
+                 <div class="border-l-4 border-yellow-400 bg-yellow-50 p-3 rounded-r-lg text-sm text-black">
+                      <p><span class="font-bold text-blue-600">Dibuat Pada:</span> <span id="v_createdAt"></span></p>
+                      <p><span class="font-bold">Diperbarui oleh:</span> <span id="v_updatedBy"></span> - <span id="v_updatedAt"></span></p>
+                      <p><span class="font-bold">Serah Terima oleh:</span> <span id="v_handoverBy"></span> - <span id="v_handoverAt"></span></p>
+                      <p><span class="font-bold">Persetujuan Akhir oleh:</span> <span id="v_approvedBy"></span> - <span id="v_approvedAt"></span></p>
                  </div>
             </div>
 
@@ -54,7 +55,7 @@
             <div id="v_catatanInfo" class="hidden">
                  <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg text-sm text-red-800">
                      <p class="font-bold mb-1 flex items-center gap-2"><i class="bi bi-exclamation-circle text-red-500"></i> Alasan Penolakan (Catatan Revisi):</p>
-                     <p id="v_catatanText" class="text-gray-800 bg-white/50 p-2 rounded border border-red-100"></p>
+                     <p id="v_catatanText" class="text-black bg-white/50 p-2 rounded border border-red-100"></p>
                  </div>
             </div>
 
@@ -65,21 +66,21 @@
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-file-text text-blue-500"></i> Laporan Kegiatan
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100 whitespace-pre-wrap" id="v_laporan"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100 whitespace-pre-wrap" id="v_laporan"></div>
                     </div>
 
                     <div>
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-exclamation-triangle text-orange-500"></i> Kejadian / Temuan
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100 whitespace-pre-wrap" id="v_kejadian"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100 whitespace-pre-wrap" id="v_kejadian"></div>
                     </div>
                     
                     <div>
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-clock-history text-purple-500"></i> Lembur
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100" id="v_lembur"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100" id="v_lembur"></div>
                     </div>
                 </div>
 
@@ -89,21 +90,21 @@
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-building-gear text-teal-500"></i> Proyek / Vendor Masuk
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100 whitespace-pre-wrap" id="v_vendor"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100 whitespace-pre-wrap" id="v_vendor"></div>
                     </div>
 
                     <div>
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-box-seam text-yellow-600"></i> Barang Inventaris
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100 whitespace-pre-wrap" id="v_inven"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100 whitespace-pre-wrap" id="v_inven"></div>
                     </div>
 
                     <div id="v_infoTambahanContainer" class="hidden">
                         <h3 class="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                             <i class="bi bi-info-circle text-gray-500"></i> Info Tambahan
                         </h3>
-                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 border border-gray-100 whitespace-pre-wrap" id="v_info"></div>
+                        <div class="bg-gray-50 p-4 rounded-xl text-sm text-black border border-gray-100 whitespace-pre-wrap" id="v_info"></div>
                     </div>
                 </div>
             </div>
@@ -131,7 +132,14 @@
     const viewJournalModal = document.getElementById('viewJournalModal');
     
     function formatDate(dateString) {
-        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        if (!dateString) return '-';
+        const options = { 
+            day: 'numeric', 
+            month: 'short', 
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
         return new Date(dateString).toLocaleDateString('id-ID', options);
     }
 
@@ -160,12 +168,20 @@
                     document.getElementById('v_nextShiftNama').textContent = journal.next_shift_rel ? journal.next_shift_rel.nama_grup : '-';
                     document.getElementById('v_statusBadge').innerHTML = getStatusBadge(journal.status);
 
-                    // Trackers (updated_by etc)
+                    // Trackers & Timestamps
                     const approvalBox = document.getElementById('v_approvalInfo');
                     approvalBox.classList.remove('hidden');
+                    
+                    document.getElementById('v_createdAt').textContent = formatDate(journal.created_at);
+                    
                     document.getElementById('v_updatedBy').textContent = journal.updater ? journal.updater.nama : 'Tidak Ada';
+                    document.getElementById('v_updatedAt').textContent = journal.updated_at ? formatDate(journal.updated_at) : 'Belum Pernah';
+                    
                     document.getElementById('v_handoverBy').textContent = journal.handover ? journal.handover.nama : 'Tidak Ada';
+                    document.getElementById('v_handoverAt').textContent = journal.handover_at ? formatDate(journal.handover_at) : 'Belum Pernah';
+                    
                     document.getElementById('v_approvedBy').textContent = journal.approver ? journal.approver.nama : 'Tidak Ada';
+                    document.getElementById('v_approvedAt').textContent = journal.approved_at ? formatDate(journal.approved_at) : 'Belum Pernah';
 
                     // Catatan Penolakan
                     const catatanBox = document.getElementById('v_catatanInfo');
@@ -210,12 +226,12 @@
                             
                             if(isImage) {
                                 html += `<img src="${filePath}" class="w-full h-24 object-cover">
-                                         <div class="p-2 text-xs text-center text-gray-600 truncate bg-white border-t border-gray-100">${fileName}</div>`;
+                                         <div class="p-2 text-xs text-center text-black truncate bg-white border-t border-gray-100">${fileName}</div>`;
                             } else {
                                 html += `<div class="w-full h-24 bg-gray-50 flex flex-col items-center justify-center text-gray-500 group-hover:text-blue-500">
                                             <i class="bi bi-file-earmark-text text-3xl"></i>
                                          </div>
-                                         <div class="p-2 text-xs font-medium text-center text-gray-700 truncate bg-white border-t border-gray-100" title="${fileName}">${fileName}</div>`;
+                                         <div class="p-2 text-xs font-medium text-center text-black truncate bg-white border-t border-gray-100" title="${fileName}">${fileName}</div>`;
                             }
                             html += `
                                     <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">

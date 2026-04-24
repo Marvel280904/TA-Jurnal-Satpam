@@ -111,6 +111,7 @@ class JournalController extends Controller
                 'barang_inven'     => $request->barang_inven,
                 'info_tambahan'    => $request->info_tambahan,
                 'status'           => 'Pending',
+                'updated_at'       => null,
             ]);
 
             // Upload files jika ada
@@ -284,6 +285,7 @@ class JournalController extends Controller
                 'barang_inven'     => $request->barang_inven,
                 'info_tambahan'    => $request->info_tambahan,
                 'updated_by'       => Auth::id(),
+                'updated_at'       => now(),
                 'status'           => $newStatus, // reset status based on previous state
             ]);
 
@@ -390,7 +392,7 @@ class JournalController extends Controller
         return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '!');
     }
 
-    public function deleteJournal($id)
+    /* public function deleteJournal($id)
     {
         // Security check: Only PGA can delete
         if (Auth::user()->role !== 'PGA') {
@@ -416,5 +418,5 @@ class JournalController extends Controller
         }
 
         return redirect()->route('log-history')->with('success', 'Jurnal berhasil dihapus secara permanen!');
-    }
+    } */
 }

@@ -261,7 +261,7 @@
             <i class="bi bi-exclamation-triangle text-orange-500 text-4xl"></i>
         </div>
         <h2 class="text-2xl font-bold text-gray-800 mb-3">Akses Dibatasi</h2>
-        <p class="text-gray-600 mb-8 leading-relaxed">
+        <p class="text-black mb-8 leading-relaxed">
             Anda belum memiliki grup, harap kontak <b>Admin</b> untuk dikelompokan ke dalam grup!
         </p>
         <form action="{{ route('logout') }}" method="POST">

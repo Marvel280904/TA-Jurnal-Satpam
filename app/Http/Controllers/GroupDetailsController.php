@@ -9,7 +9,7 @@ class GroupDetailsController extends Controller
 {
     public function viewGroup()
     {
-        $groups = Group::with('users')->get();
+        $groups = Group::where('status', 'Active')->with('users')->get();
         return view('pga.group_details', compact('groups'));
     }
 }

@@ -14,7 +14,7 @@
         <div class="text-center mb-8">
             <img src="{{ asset('logo-aica.png') }}" alt="Logo" class="h-14 w-auto mx-auto mb-4">
             <h1 class="text-2xl font-bold text-gray-800">Sistem Informasi Jurnal</h1>
-            <p class="text-gray-500">Operasional Keamanan</p>
+            <p class="text-black">Operasional Keamanan</p>
         </div>
 
         @if(session('error'))
@@ -26,9 +26,9 @@
         <form action="{{ route('login.process') }}" method="POST">
             @csrf
             <div class="mb-5">
-                <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Username</label>
+                <label class="block text-black text-sm font-semibold mb-2" for="username">Username</label>
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-black">
                         <i class="bi bi-person-fill"></i>
                     </span>
                     <input type="text" name="username" id="username" required
@@ -38,9 +38,9 @@
             </div>
 
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">Password</label>
+                <label class="block text-black text-sm font-semibold mb-2" for="password">Password</label>
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-black">
                         <i class="bi bi-key-fill"></i>
                     </span>
                     <input type="password" name="password" id="password" required

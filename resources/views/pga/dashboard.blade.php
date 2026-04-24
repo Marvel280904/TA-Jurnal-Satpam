@@ -13,7 +13,7 @@
         <!-- Waiting Approval -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500 mb-1">Waiting Approval</p>
+                <p class="text-sm text-black mb-1">Waiting Approval</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $waiting_approval }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center">
@@ -24,7 +24,7 @@
         <!-- Approved Today -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500 mb-1">Approved Today</p>
+                <p class="text-sm text-black mb-1">Approved Today</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $approved_today }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-green-100 text-green-500 flex items-center justify-center">
@@ -35,7 +35,7 @@
         <!-- Rejected Journals -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500 mb-1">Rejected Journals</p>
+                <p class="text-sm text-black mb-1">Rejected Journals</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $rejected_journals }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-red-100 text-red-500 flex items-center justify-center">
@@ -46,7 +46,7 @@
         <!-- Total Groups -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500 mb-1">Total Groups</p>
+                <p class="text-sm text-black mb-1">Total Groups</p>
                 <p class="text-3xl font-bold text-gray-800">{{ $total_groups }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-500 flex items-center justify-center">
@@ -66,9 +66,9 @@
                             <p class="font-bold text-gray-800">Journal from: {{ $journal->user->nama ?? '-' }}</p>
                             <span class="px-2.5 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-md">Waiting</span>
                         </div>
-                        <p class="text-sm text-gray-600 mb-0.5"><span class="font-semibold text-gray-500">Location:</span> {{ $journal->location->nama_lokasi ?? '-' }}</p>
-                        <p class="text-sm text-gray-600 mb-0.5"><span class="font-semibold text-gray-500">Shift:</span> {{ $journal->shift->nama_shift ?? '-' }}</p>
-                        <p class="text-sm text-gray-600"><span class="font-semibold text-gray-500">Date:</span> {{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</p>
+                        <p class="text-sm text-black mb-0.5"><span class="font-semibold text-black">Location:</span> {{ $journal->location->nama_lokasi ?? '-' }}</p>
+                        <p class="text-sm text-black mb-0.5"><span class="font-semibold text-black">Shift:</span> {{ $journal->shift->nama_shift ?? '-' }}</p>
+                        <p class="text-sm text-black"><span class="font-semibold text-black">Date:</span> {{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button onclick="openViewModal({{ $journal->id }})" class="px-3 py-1.5 bg-blue-100 border border-gray-200 text-gray-700 text-sm font-bold rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-gray-200">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             @empty
-                <div class="text-center py-6 text-gray-500 text-sm">
+                <div class="text-center py-6 text-black text-sm">
                     No journals waiting for approval.
                 </div>
             @endforelse
@@ -119,14 +119,14 @@
                                     </div>
                                 </div>
                                 <div class="text-right flex flex-col justify-end min-w-[50px]">
-                                    <span class="font-bold text-gray-800 leading-none text-right">{{ $user->journals_count }}</span>
-                                    <span class="text-[10px] text-gray-500 leading-none text-right mt-0.5">journals</span>
+                                    <span class="font-bold text-black leading-none text-right">{{ $user->journals_count }}</span>
+                                    <span class="text-sm text-black leading-none text-right mt-0.5">journals</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <p class="text-sm text-gray-500 text-center py-4">No active users yet.</p>
+                    <p class="text-sm text-black text-center py-4">No active users yet.</p>
                 @endforelse
             </div>
         </div>
@@ -139,16 +139,16 @@
                 @forelse($most_active_groups as $group)
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex items-center justify-between">
                         <div>
-                            <p class="font-bold text-gray-800 text-md">{{ $group->nama_grup }}</p>
-                            <p class="text-sm text-gray-500">{{ $group->users_count }} members</p>
+                            <p class="font-bold text-black text-md">{{ $group->nama_grup }}</p>
+                            <p class="text-sm text-black">{{ $group->users_count }} members</p>
                         </div>
                         <div class="text-right flex flex-col items-center">
                             <span class="font-bold text-blue-600 text-2xl leading-none block">{{ $group->journals_count }}</span>
-                            <span class="text-xs text-gray-500 block">journals</span>
+                            <span class="text-sm text-black block">journals</span>
                         </div>
                     </div>
                 @empty
-                    <p class="text-sm text-gray-500 text-center py-4">No active groups yet.</p>
+                    <p class="text-sm text-black text-center py-4">No active groups yet.</p>
                 @endforelse
             </div>
         </div>
@@ -166,7 +166,7 @@
         <div class="space-y-4">
             @foreach($last_7_days_data as $data)
                 <div class="flex items-center gap-4">
-                    <div class="w-14 text-sm text-gray-600 whitespace-nowrap">{{ $data['date'] }}</div>
+                    <div class="w-14 text-sm text-black whitespace-nowrap">{{ $data['date'] }}</div>
                     <div class="flex-grow bg-gray-100 rounded-full h-5 relative overflow-hidden">
                         <div class="bg-[#1a56db] h-full rounded-full transition-all duration-500 ease-out" 
                              style="width: {{ ($data['count'] / $max_submissions) * 100 }}%">

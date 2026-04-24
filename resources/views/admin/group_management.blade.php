@@ -220,7 +220,7 @@
                     </div>
                     <div>
                         <p class="font-bold text-gray-800 text-sm">${member.name}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">${member.username} • ${member.role.toLowerCase()}</p>
+                        <p class="text-xs text-black mt-0.5">${member.username} • ${member.role.toLowerCase()}</p>
                     </div>
                 `;
                 container.appendChild(item);

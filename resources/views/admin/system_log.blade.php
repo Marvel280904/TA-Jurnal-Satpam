@@ -21,7 +21,7 @@
                     id="logSearchInput"
                     type="text"
                     placeholder="Search logs..."
-                    class="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400">
+                    class="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400">
             </div>
         </div>
     </div>
@@ -50,11 +50,11 @@
                             default => 'bg-gray-100 text-gray-700',
                         };
                     @endphp
-                    <tr class="hover:bg-gray-50/70 transition">
-                        <td class="py-3.5 pr-6 text-gray-700 whitespace-nowrap">
+                    <tr class="hover:bg-gray-50/70 transition text-black">
+                        <td class="py-3.5 pr-6 whitespace-nowrap">
                             {{ $log->created_at->translatedFormat('d F Y, H:i') }}
                         </td>
-                        <td class="py-3.5 pr-6 text-gray-800 font-semibold whitespace-nowrap">
+                        <td class="py-3.5 pr-6 font-semibold whitespace-nowrap">
                             {{ $log->user->nama ?? '-' }}
                         </td>
                         <td class="py-3.5 pr-6 whitespace-nowrap">
@@ -62,13 +62,13 @@
                                 {{ $action }}
                             </span>
                         </td>
-                        <td class="py-3.5 text-gray-600">
+                        <td class="py-3.5">
                             {{ $log->deskripsi }}
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="py-8 text-center text-gray-400 text-sm">
+                        <td colspan="4" class="py-8 text-center text-black text-sm">
                             Belum ada aktivitas yang terekam.
                         </td>
                     </tr>

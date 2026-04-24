@@ -16,7 +16,7 @@
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                 <div class="mb-5">
                     <h2 class="text-lg font-bold text-gray-800">{{ $group->nama_grup }}</h2>
-                    <p class="text-sm text-gray-500">{{ $group->users->count() }} members</p>
+                    <p class="text-sm text-black">{{ $group->users->count() }} members</p>
                 </div>
 
                 <div class="space-y-3">
@@ -32,11 +32,11 @@
                                 </div>
                             </div>
                             <div>
-                                <span class="text-xs font-semibold text-gray-500">{{ $member->role }}</span>
+                                <span class="text-xs font-semibold text-black">{{ $member->role }}</span>
                             </div>
                         </div>
                     @empty
-                        <p class="text-sm text-gray-500 py-2">No members in this group.</p>
+                        <p class="text-sm text-black py-2">No members in this group.</p>
                     @endforelse
                 </div>
             </div>

@@ -46,14 +46,14 @@
                 </thead>
                 <tbody>
                     @forelse($journals as $journal)
-                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors journal-row" 
+                        <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors journal-row text-black" 
                             data-search="{{ strtolower(\Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y')) }} {{ strtolower($journal->user->nama ?? '') }} {{ strtolower($journal->group->nama_grup ?? '') }} {{ strtolower($journal->location->nama_lokasi ?? '') }} {{ strtolower($journal->shift->nama_shift ?? '') }}"
                             data-status="{{ $journal->status }}">
-                            <td class="py-3 px-4 text-sm text-gray-600">{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</td>
-                            <td class="py-3 px-4 text-sm text-gray-800 font-medium">{{ $journal->user->nama ?? '-' }}</td>
-                            <td class="py-3 px-4 text-sm text-gray-600">{{ $journal->group->nama_grup ?? '-' }}</td>
-                            <td class="py-3 px-4 text-sm text-gray-600">{{ $journal->location->nama_lokasi ?? '-' }}</td>
-                            <td class="py-3 px-4 text-sm text-gray-600">{{ $journal->shift->nama_shift ?? '-' }}</td>
+                            <td class="py-3 px-4 text-sm">{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</td>
+                            <td class="py-3 px-4 text-sm font-medium">{{ $journal->user->nama ?? '-' }}</td>
+                            <td class="py-3 px-4 text-sm">{{ $journal->group->nama_grup ?? '-' }}</td>
+                            <td class="py-3 px-4 text-sm">{{ $journal->location->nama_lokasi ?? '-' }}</td>
+                            <td class="py-3 px-4 text-sm">{{ $journal->shift->nama_shift ?? '-' }}</td>
                             <td class="py-3 px-4 text-sm">
                                 @if($journal->status === 'Pending')
                                     @if(auth()->user()->group_id === $journal->next_shift)
@@ -88,21 +88,21 @@
                                 <a href="{{ route('journal.download', $journal->id) }}" class="text-red-500 hover:text-red-700 transition" title="Download PDF">
                                     <i class="bi bi-file-earmark-pdf text-lg"></i>
                                 </a>
-                                @if(auth()->user()->role === 'PGA')
+                                {{-- @if(auth()->user()->role === 'PGA')
                                 <button onclick="openDeleteModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" class="text-red-600 hover:text-red-800 transition" title="Delete Journal">
                                     <i class="bi bi-trash text-lg"></i>
                                 </button>
-                                @endif
+                                @endif --}}
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="py-6 text-center text-gray-500">No journal submissions found.</td>
+                            <td colspan="7" class="py-6 text-center text-black">No journal submissions found.</td>
                         </tr>
                     @endforelse
                     {{-- JS-controlled no-results row --}}
                     <tr id="no-results-row" style="display:none;">
-                        <td colspan="7" class="py-6 text-center text-gray-500">No journal submissions found.</td>
+                        <td colspan="7" class="py-6 text-center text-black">No journal submissions found.</td>
                     </tr>
                 </tbody>
             </table>
@@ -117,7 +117,7 @@
 <div id="handoverModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white w-full max-w-md rounded-2xl shadow-xl transform scale-95 transition-transform duration-300 p-6 mx-4">
         <h2 class="text-xl font-bold text-gray-800 mb-4">Konfirmasi Serah Terima</h2>
-        <p class="text-gray-600 mb-6">Apakah Anda yakin ingin melakukan serah terima jurnal ini? Status jurnal akan berubah menjadi <span class="font-bold text-yellow-600">Waiting</span> untuk disetujui PGA.</p>
+        <p class="text-black mb-6">Apakah Anda yakin ingin melakukan serah terima jurnal ini? Status jurnal akan berubah menjadi <span class="font-bold text-yellow-600">Waiting</span> untuk disetujui PGA.</p>
         
         <form id="handoverForm" method="POST" action="">
             @csrf
@@ -129,7 +129,7 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+{{-- <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white w-full max-w-md rounded-2xl shadow-xl transform scale-95 transition-transform duration-300 p-6 mx-4">
         <div class="flex items-center gap-3 text-red-600 mb-4">
@@ -153,7 +153,7 @@
             </div>
         </form>
     </div>
-</div>
+</div> --}}
 
 <!-- Final Approval Modal (PGA Only) -->
 <div id="finalApprovalModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
@@ -163,10 +163,10 @@
             <h2 class="text-xl font-bold">Final Approval Journal</h2>
         </div>
         
-        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4 text-sm">
-            <p class="text-gray-700"><strong>Tanggal:</strong> <span id="approveDate"></span></p>
-            <p class="text-gray-700"><strong>Lokasi:</strong> <span id="approveLocation"></span></p>
-            <p class="text-gray-700"><strong>Shift:</strong> <span id="approveShift"></span></p>
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4 text-sm text-black">
+            <p><strong>Tanggal:</strong> <span id="approveDate"></span></p>
+            <p><strong>Lokasi:</strong> <span id="approveLocation"></span></p>
+            <p><strong>Shift:</strong> <span id="approveShift"></span></p>
         </div>
 
         <form id="finalApprovalForm" method="POST" action="">
@@ -271,7 +271,7 @@
         }, 300);
     }
 
-    // Delete Modal Logic
+    /* // Delete Modal Logic
     const deleteModal = document.getElementById('deleteModal');
     const deleteForm = document.getElementById('deleteForm');
     const deleteDateText = document.getElementById('deleteDate');
@@ -297,7 +297,7 @@
         setTimeout(() => {
             deleteModal.classList.add('hidden');
         }, 300);
-    }
+    } */
 
     // Final Approval Modal Logic (PGA)
     const finalApprovalModal = document.getElementById('finalApprovalModal');

@@ -59,7 +59,7 @@
             </div>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModalUser()" class="px-4 py-2 text-sm text-gray-500">Cancel</button>
+                <button type="button" onclick="closeModalUser()" class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 text-black transition">Cancel</button>
                 <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition">Save</button>
             </div>
         </form>

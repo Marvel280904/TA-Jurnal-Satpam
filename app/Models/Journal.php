@@ -10,7 +10,7 @@ class Journal extends Model
         'tanggal', 'user_id', 'group_id', 'group_member', 'lokasi_id', 'shift_id', 'next_shift',
         'laporan_kegiatan', 'kejadian_temuan', 'lembur', 'proyek_vendor', 
         'barang_inven', 'info_tambahan', 'status', 'updated_by', 'handover_by', 
-        'approved_by', 'catatan'
+        'approved_by', 'catatan', 'updated_at', 'handover_at', 'approved_at'
     ];
 
     // Relasi
@@ -41,13 +41,17 @@ class Journal extends Model
 
     public function handoverApproval($userId, $status) {
         $this->handover_by = $userId;
+        $this->handover_at = now();
         $this->status = $status;
+        $this->timestamps = false; // Prevent updated_at from changing
         return $this->save();
     }
 
     public function finalApproval($userId, $status) {
         $this->approved_by = $userId;
+        $this->approved_at = now();
         $this->status = $status;
+        $this->timestamps = false; // Prevent updated_at from changing
         return $this->save();
     }
 }

@@ -84,7 +84,7 @@
                 <button
                     type="button"
                     onclick="closeModalShift()"
-                    class="px-4 py-2 text-sm text-gray-500 hover:text-gray-700">
+                    class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 text-black">
                     Cancel
                 </button>
                 <button

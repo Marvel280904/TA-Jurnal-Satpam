@@ -3,7 +3,7 @@
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden transform transition-all">
         <div class="p-6">
             <h3 class="text-lg font-bold text-gray-900 mb-2" id="approvalModalTitle">Confirm Action</h3>
-            <p class="text-gray-600 text-sm mb-6" id="approvalModalMessage">Are you sure you want to proceed?</p>
+            <p class="text-black text-md mb-6" id="approvalModalMessage">Are you sure you want to proceed?</p>
             
             <form id="approvalForm" method="POST" action="">
                 @csrf
@@ -31,10 +31,10 @@
                 </div>
                 
                 <div class="flex gap-3 justify-end">
-                    <button type="button" onclick="closeApprovalModal()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-bold rounded-xl transition-colors">
+                    <button type="button" onclick="closeApprovalModal()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-bold rounded-lg transition-colors">
                         Cancel
                     </button>
-                    <button type="submit" id="approvalSubmitBtn" class="px-4 py-2 text-white text-sm font-bold rounded-xl transition-colors">
+                    <button type="submit" id="approvalSubmitBtn" class="px-4 py-2 text-white text-sm font-bold rounded-lg transition-colors">
                         Confirm
                     </button>
                 </div>
@@ -85,14 +85,14 @@
         if (action === 'Approved') {
             title.textContent = 'Approve Journal';
             message.textContent = 'Apakah anda yakin ingin menyetujui jurnal ini?';
-            submitBtn.className = 'px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-xl transition-colors';
+            submitBtn.className = 'px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-colors';
             submitBtn.innerHTML = 'Confirm Approve';
             catatanContainer.classList.add('hidden');
             catatanInput.removeAttribute('required');
         } else {
             title.textContent = 'Reject Journal';
             message.textContent = 'Apakah anda yakin ingin menolak jurnal ini? Tolong berikan alasan penolakan';
-            submitBtn.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-colors';
+            submitBtn.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors';
             submitBtn.innerHTML = 'Confirm Reject';
             catatanContainer.classList.remove('hidden');
             catatanInput.setAttribute('required', 'required');

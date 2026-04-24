@@ -9,7 +9,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500">Total Users</p>
+                <p class="text-sm text-black">Total Users</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_user }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -19,7 +19,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500">Active Locations</p>
+                <p class="text-sm text-black">Active Locations</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $active_locations }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center">
@@ -29,7 +29,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500">Active Shifts</p>
+                <p class="text-sm text-black">Active Shifts</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $active_shifts }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center">
@@ -39,7 +39,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-gray-500">Total Groups</p>
+                <p class="text-sm text-black">Total Groups</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_groups }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
@@ -92,15 +92,15 @@
                 <div class="flex items-start gap-3">
                     <span class="mt-1.5 w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></span>
                     <div>
-                        <p class="text-sm font-semibold text-gray-800">{{ $log->user->nama }}</p>
-                        <p class="text-sm text-gray-500">{{ $log->deskripsi }}</p>
+                        <p class="text-sm font-semibold text-black">{{ $log->user->nama }}</p>
+                        <p class="text-sm text-black">{{ $log->deskripsi }}</p>
                         <span class="inline-block mt-1 text-xs font-bold uppercase tracking-wide px-2 py-0.5 rounded {{ $badgeClass }}">{{ $action }}</span>
                     </div>
                 </div>
-                <span class="text-xs text-gray-400 whitespace-nowrap ml-4">{{ $log->created_at->translatedFormat('d F Y, H:i') }}</span>
+                <span class="text-xs text-black font-semibold whitespace-nowrap ml-4">{{ $log->created_at->translatedFormat('d F Y, H:i') }}</span>
             </div>
             @empty
-                <span class="text-md text-gray-400 whitespace-nowrap">Belum ada aktivitas yang terekam.</span>
+                <span class="text-md text-black whitespace-nowrap">Belum ada aktivitas yang terekam.</span>
             @endforelse
         </div>
     </div>

@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
             'nama'     => 'Administrator',
             'role'     => 'Admin',
-            'status'   => 'Active',
             'group_id' => null,
         ]);
     }

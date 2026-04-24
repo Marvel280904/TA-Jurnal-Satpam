@@ -13,13 +13,13 @@
         <button
             onclick="switchTab('locations')"
             id="tab-locations"
-            class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('tab', 'locations') === 'locations' ? 'bg-gray-800 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50' }}">
+            class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('tab', 'locations') === 'locations' ? 'bg-gray-800 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300' }}">
             Locations
         </button>
         <button
             onclick="switchTab('shifts')"
             id="tab-shifts"
-            class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('tab', 'locations') === 'shifts' ? 'bg-gray-800 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50' }}">
+            class="tab-btn px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('tab', 'locations') === 'shifts' ? 'bg-gray-800 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-300' }}">
             Shifts
         </button>
     </div>

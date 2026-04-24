@@ -11,9 +11,9 @@
         <h3 id="statusConfirmTitle" class="text-lg font-bold text-gray-800 mb-1">Ubah Status?</h3>
 
         {{-- Deskripsi Dinamis --}}
-        <p class="text-sm text-gray-500 mb-5">
+        <p class="text-md text-black mb-5">
             Anda yakin ingin mengubah status <span id="statusEntityLabel"></span> 
-            <span id="statusNameLabel" class="font-semibold text-gray-700"></span> menjadi 
+            <span id="statusNameLabel" class="font-semibold text-black"></span> menjadi 
             <span id="statusNextLabel" class="font-bold"></span>?
         </p>
 
@@ -23,7 +23,7 @@
             @method('PATCH')
             
             <button type="button" onclick="closeModalStatusConfirm()"
-                class="px-5 py-2 text-sm border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 transition">
+                class="px-5 py-2 text-sm border border-gray-400 text-gray-600 rounded-lg hover:bg-gray-50 transition">
                 Batal
             </button>
             <button type="submit" id="btnStatusConfirm"
