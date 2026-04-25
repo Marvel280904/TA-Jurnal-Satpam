@@ -129,7 +129,7 @@ class JournalController extends Controller
             if ($e->getCode() == '23000') {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'Gagal submit: Jurnal untuk grup Anda pada tanggal ini baru saja dikirim oleh anggota tim lain. Sistem mencegah duplikasi data.');
+                    ->with('error', 'Gagal submit: Jurnal pada tanggal, lokasi, dan shift yang sama baru saja dikirim oleh anggota tim lain. Sistem mencegah duplikasi data.');
             }
             
             return redirect()->back()
@@ -314,7 +314,7 @@ class JournalController extends Controller
             if ($e->getCode() == '23000') {
                 return redirect()->back()
                     ->withInput()
-                    ->with('error', 'Gagal update: Jurnal untuk grup Anda pada tanggal ini baru saja diperbarui oleh anggota tim lain. Sistem mencegah duplikasi data.');
+                    ->with('error', 'Gagal update: Jurnal pada tanggal, lokasi, dan shift yang sama baru saja dikirim oleh anggota tim lain. Sistem mencegah duplikasi data.');
             }
             
             return redirect()->back()

@@ -15,7 +15,7 @@ class GroupManagementController extends Controller
     {
         $groups = Group::with('users')->orderBy('status', 'asc')->orderBy('nama_grup')->get();
         // Ambil semua user Satpam untuk checkbox di modal (add/edit)
-        $satpam_users = User::where('role', 'Satpam')->orderBy('nama')->get();
+        $satpam_users = User::where('role', 'Satpam')->where('status', 'Active')->orderBy('nama')->get();
         
         return view('admin.group_management', compact('groups', 'satpam_users'));
     }

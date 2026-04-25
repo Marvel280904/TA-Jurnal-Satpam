@@ -41,7 +41,7 @@
                         @php
                             $roleColor = match($user->role) {
                                 'Admin'  => 'bg-blue-100 text-blue-700',
-                                'Satpam' => 'bg-green-100 text-green-700',
+                                'Satpam' => 'bg-yellow-100 text-yellow-700',
                                 'PGA'    => 'bg-purple-100 text-purple-700',
                                 default  => 'bg-gray-100 text-gray-600',
                             };

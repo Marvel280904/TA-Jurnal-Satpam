@@ -9,7 +9,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-black">Total Users</p>
+                <p class="text-sm text-black">Active Users</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_user }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -39,7 +39,7 @@
 
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
-                <p class="text-sm text-black">Total Groups</p>
+                <p class="text-sm text-black">Active Groups</p>
                 <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_groups }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
