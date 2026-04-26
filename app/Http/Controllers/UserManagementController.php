@@ -140,7 +140,7 @@ class UserManagementController extends Controller
 
         SystemLog::recordLog([
             'user_id'   => auth()->id(),
-            'aksi'      => 'Update',
+            'aksi'      => 'Change Status',
             'deskripsi' => "Admin mengubah status user: {$user->username} menjadi {$user->status}",
         ]);
 

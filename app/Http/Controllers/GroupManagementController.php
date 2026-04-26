@@ -118,7 +118,7 @@ class GroupManagementController extends Controller
 
         SystemLog::recordLog([
             'user_id'   => auth()->id(),
-            'aksi'      => 'Update',
+            'aksi'      => 'Change Status',
             'deskripsi' => "Admin mengubah status grup: {$group->nama_grup} menjadi {$group->status}",
         ]);
 
