@@ -19,7 +19,7 @@ class PGAController extends Controller
             ->whereDate('updated_at', Carbon::today())
             ->count();
         $rejected_journals = Journal::where('status', 'Rejected')->count();
-        $total_groups = Group::count();
+        $total_groups = Group::where('status', 'Active')->count();
 
         // Approval Queue
         $approval_queue = Journal::with(['user', 'group', 'location', 'shift'])

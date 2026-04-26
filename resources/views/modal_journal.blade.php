@@ -131,16 +131,19 @@
 <script>
     const viewJournalModal = document.getElementById('viewJournalModal');
     
-    function formatDate(dateString) {
+    function formatDate(dateString, includeTime = true) {
         if (!dateString) return '-';
         const options = { 
             day: 'numeric', 
-            month: 'short', 
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+            month: 'long', 
+            year: 'numeric'
         };
-        return new Date(dateString).toLocaleDateString('id-ID', options);
+        if (includeTime) {
+            options.hour = '2-digit';
+            options.minute = '2-digit';
+        }
+        let formatted = new Date(dateString).toLocaleDateString('id-ID', options);
+        return includeTime ? formatted.replace(' pukul ', ', ') : formatted;
     }
 
     function getStatusBadge(status) {
@@ -159,7 +162,7 @@
                     const journal = data.data;
 
                     // Populate fields
-                    document.getElementById('v_tanggal').textContent = formatDate(journal.tanggal);
+                    document.getElementById('v_tanggal').textContent = formatDate(journal.tanggal, false);
                     document.getElementById('v_userNama').textContent = journal.user.nama;
                     document.getElementById('v_groupNama').textContent = journal.group.nama_grup;
                     document.getElementById('v_groupMembers').textContent = journal.group_members_names || '-';

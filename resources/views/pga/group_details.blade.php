@@ -28,11 +28,16 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-bold text-gray-800 leading-tight">{{ $member->nama }}</p>
-                                    <p class="text-xs text-gray-500">{{ $member->username }}</p>
+                                    <p class="text-xs text-black">{{ $member->username }}</p>
                                 </div>
                             </div>
                             <div>
-                                <span class="text-xs font-semibold text-black">{{ $member->role }}</span>
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors duration-200 
+                                    {{ $member->status === 'Active' 
+                                    ? 'bg-green-200 text-green-700' 
+                                    : 'bg-gray-200 text-gray-500' }}">
+                                    {{ $member->status }}
+                                </span>
                             </div>
                         </div>
                     @empty

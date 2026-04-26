@@ -292,7 +292,7 @@ class JournalController extends Controller
             // Handle deletions of existing files flagged by user
             if ($request->filled('delete_upload_ids')) {
                 $deleteIds = explode(',', $request->delete_upload_ids);
-                $uploadsToDelete = \App\Models\Upload::whereIn('id', $deleteIds)
+                $uploadsToDelete = Upload::whereIn('id', $deleteIds)
                     ->where('journal_id', $journal->id)
                     ->get();
                 foreach ($uploadsToDelete as $upload) {
