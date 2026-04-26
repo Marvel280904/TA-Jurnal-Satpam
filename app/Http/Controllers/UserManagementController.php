@@ -59,12 +59,17 @@ class UserManagementController extends Controller
 
     public function editUser(Request $request, User $user)
     {
-        $request->validate([
+        $rules = [
             'nama'     => 'required|string|max:255|unique:users,nama,' . $user->id,
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'password' => 'nullable|string|min:6',
-            'role'     => 'required|in:Satpam,PGA',
-        ], [
+        ];
+
+        if ($user->role !== 'Admin') {
+            $rules['role'] = 'required|in:Satpam,PGA';
+        }
+
+        $request->validate($rules, [
             'nama.required' => 'Nama wajib diisi!',
             'nama.max' => 'Nama maksimal 255 karakter!',
             'nama.unique' => 'Nama sudah digunakan!',
@@ -79,8 +84,11 @@ class UserManagementController extends Controller
         $data = [
             'nama'     => $request->nama,
             'username' => $request->username,
-            'role'     => $request->role,
         ];
+
+        if ($request->has('role') && $user->role !== 'Admin') {
+            $data['role'] = $request->role;
+        }
 
         // Hanya update password jika diisi
         if ($request->filled('password')) {

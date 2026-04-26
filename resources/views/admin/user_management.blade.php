@@ -31,7 +31,7 @@
             <tbody class="divide-y divide-gray-300">
                 @forelse($users as $user)
                 @php
-                    // Cek apakah user dilarang dihapus (Diri sendiri)
+                    // Cek apakah user dilarang mengubah status (Diri sendiri)
                     $isRestricted = ($user->id === auth()->id());
                 @endphp
                 <tr class="hover:bg-gray-50/50 transition text-black">
@@ -109,12 +109,28 @@
         const passNote = document.getElementById('passwordNote');
         const passReq = document.getElementById('passwordInput');
         const userIdInput = document.getElementById('inputUserId');
+        const roleContainer = document.getElementById('roleContainer');
+        const inputRole = document.getElementById('inputRole');
 
         form.reset();
 
         document.getElementById('inputNama').value = nama;
         document.getElementById('inputUsername').value = username;
-        document.getElementById('inputRole').value = role;
+        
+        if (role === 'Admin' && id !== null) {
+            if (roleContainer) roleContainer.classList.add('hidden');
+            if (inputRole) {
+                inputRole.disabled = true;
+                inputRole.required = false;
+            }
+        } else {
+            if (roleContainer) roleContainer.classList.remove('hidden');
+            if (inputRole) {
+                inputRole.disabled = false;
+                inputRole.required = true;
+                inputRole.value = role;
+            }
+        }
 
         if (id) {
             title.innerText = 'Edit User';
