@@ -10,7 +10,7 @@
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-sm text-black">Active Users</p>
-                <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_user }}</h3>
+                <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $active_user }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
                 <i class="bi bi-people text-blue-500 text-2xl"></i>
@@ -40,7 +40,7 @@
         <div class="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">
             <div>
                 <p class="text-sm text-black">Active Groups</p>
-                <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $total_groups }}</h3>
+                <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $active_groups }}</h3>
             </div>
             <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
                 <i class="bi bi-person-badge text-orange-500 text-2xl"></i>

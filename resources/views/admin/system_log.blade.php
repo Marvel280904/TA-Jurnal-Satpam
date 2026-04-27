@@ -12,8 +12,17 @@
             <h2 class="text-base font-bold text-gray-800">Activity Log</h2>
         </div>
 
-        <div class="w-full md:w-72">
-            <div class="relative">
+        <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            {{-- Date Filter --}}
+            <div class="w-full sm:w-auto">
+                <input
+                    id="logDateInput"
+                    type="date"
+                    class="w-full px-3 py-2 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            {{-- Search Input --}}
+            <div class="relative w-full md:w-72">
                 <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
                     <i class="bi bi-search text-sm"></i>
                 </span>
@@ -21,7 +30,7 @@
                     id="logSearchInput"
                     type="text"
                     placeholder="Search logs..."
-                    class="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400">
+                    class="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400">
             </div>
         </div>
     </div>
@@ -50,7 +59,7 @@
                             default => 'bg-gray-100 text-gray-700',
                         };
                     @endphp
-                    <tr class="hover:bg-gray-50/70 transition text-black">
+                    <tr class="hover:bg-gray-50/70 transition text-black" data-date="{{ $log->created_at->format('Y-m-d') }}">
                         <td class="py-3.5 pr-6 whitespace-nowrap">
                             {{ $log->created_at->translatedFormat('d F Y, H:i') }}
                         </td>
@@ -73,6 +82,12 @@
                         </td>
                     </tr>
                 @endforelse
+                {{-- No results row --}}
+                <tr id="logsNoResults" class="hidden">
+                    <td colspan="4" class="py-8 text-center text-black text-md">
+                        Log not found.
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -80,20 +95,41 @@
 
 <script>
     (function () {
-        const input = document.getElementById('logSearchInput');
-        const table = document.getElementById('logsTableBody');
+        const searchInput = document.getElementById('logSearchInput');
+        const dateInput = document.getElementById('logDateInput');
+        const tableBody = document.getElementById('logsTableBody');
+        const noResultsRow = document.getElementById('logsNoResults');
 
-        if (!input || !table) return;
+        if (!searchInput || !dateInput || !tableBody) return;
 
-        input.addEventListener('input', function () {
-            const query = this.value.toLowerCase().trim();
-            const rows = table.querySelectorAll('tr');
+        function filterLogs() {
+            const query = searchInput.value.toLowerCase().trim();
+            const dateQuery = dateInput.value; // YYYY-MM-DD
+            const rows = tableBody.querySelectorAll('tr');
+            let anyVisible = false;
 
             rows.forEach(row => {
+                // Skip the "no results" row and the "empty" row
+                if (row.id === 'logsNoResults' || row.querySelector('td[colspan]')) return;
+
                 const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
+                const rowDate = row.getAttribute('data-date');
+
+                const matchesText = text.includes(query);
+                const matchesDate = !dateQuery || rowDate === dateQuery;
+
+                const isVisible = matchesText && matchesDate;
+                row.style.display = isVisible ? '' : 'none';
+                if (isVisible) anyVisible = true;
             });
-        });
+
+            if (noResultsRow) {
+                noResultsRow.classList.toggle('hidden', anyVisible || (!query && !dateQuery));
+            }
+        }
+
+        searchInput.addEventListener('input', filterLogs);
+        dateInput.addEventListener('change', filterLogs);
     })();
 </script>
 

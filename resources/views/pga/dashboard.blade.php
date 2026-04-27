@@ -21,11 +21,11 @@
             </div>
         </div>
 
-        <!-- Approved Today -->
+        <!-- Approved Journals -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-black mb-1">Approved Today</p>
-                <p class="text-3xl font-bold text-gray-800">{{ $approved_today }}</p>
+                <p class="text-sm text-black mb-1">Approved Journals</p>
+                <p class="text-3xl font-bold text-gray-800">{{ $approved_journals }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-green-100 text-green-500 flex items-center justify-center">
                 <i class="bi bi-check-circle text-2xl"></i>

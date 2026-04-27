@@ -31,14 +31,25 @@
         <div class="bg-white rounded-xl shadow-sm p-6">
 
             {{-- Header --}}
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                 <h2 class="text-base font-bold text-gray-800">Location Management</h2>
-                {{-- Add: reset edit state lalu buka modal --}}
-                <button
-                    onclick="openModalLoc()"
-                    class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
-                    <span class="text-lg leading-none">+</span> Add Location
-                </button>
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    {{-- Search Input --}}
+                    <div class="relative w-full sm:w-64">
+                        <input type="text" id="locSearchInput" placeholder="Search location..." 
+                            class="w-full pl-9 pr-3 py-2 bg-gray-50 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500 block transition-all"
+                            autocomplete="off">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="bi bi-search text-gray-500"></i>
+                        </div>
+                    </div>
+                    {{-- Add: reset edit state lalu buka modal --}}
+                    <button
+                        onclick="openModalLoc()"
+                        class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition w-full sm:w-auto">
+                        <span class="text-lg leading-none">+</span> Add Location
+                    </button>
+                </div>
             </div>
 
             {{-- Table --}}
@@ -52,7 +63,7 @@
                             <th class="pb-3 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-300">
+                    <tbody id="locTableBody" class="divide-y divide-gray-300">
                         @forelse($locations as $loc)
                         <tr class="hover:bg-gray-50/50 transition">
                             <td class="py-3.5 pr-6 font-semibold text-gray-800">{{ $loc->nama_lokasi }}</td>
@@ -93,11 +104,17 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="py-8 text-center text-gray-400 text-sm">
+                            <td colspan="4" class="py-8 text-center text-black text-md">
                                 Belum ada data lokasi.
                             </td>
                         </tr>
                         @endforelse
+                        {{-- No results row --}}
+                        <tr id="locNoResults" class="hidden">
+                            <td colspan="4" class="py-8 text-center text-black text-md">
+                                Location not found.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -111,14 +128,25 @@
         <div class="bg-white rounded-xl shadow-sm p-6">
 
             {{-- Header --}}
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                 <h2 class="text-base font-bold text-gray-800">Shift Management</h2>
-                {{-- Add: reset edit state lalu buka modal --}}
-                <button
-                    onclick="openModalShift()"
-                    class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
-                    <span class="text-lg leading-none">+</span> Add Shift
-                </button>
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    {{-- Search Input --}}
+                    <div class="relative w-full sm:w-64">
+                        <input type="text" id="shiftSearchInput" placeholder="Search shift..." 
+                            class="w-full pl-9 pr-3 py-2 bg-gray-50 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500 block transition-all"
+                            autocomplete="off">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="bi bi-search text-gray-500"></i>
+                        </div>
+                    </div>
+                    {{-- Add: reset edit state lalu buka modal --}}
+                    <button
+                        onclick="openModalShift()"
+                        class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition w-full sm:w-auto">
+                        <span class="text-lg leading-none">+</span> Add Shift
+                    </button>
+                </div>
             </div>
 
             {{-- Table --}}
@@ -133,7 +161,7 @@
                             <th class="pb-3 text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-300">
+                    <tbody id="shiftTableBody" class="divide-y divide-gray-300">
                         @forelse($shifts as $shift)
                         <tr class="hover:bg-gray-50/50 transition">
                             <td class="py-3.5 pr-6 font-semibold text-gray-800">{{ $shift->nama_shift }}</td>
@@ -175,11 +203,17 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="py-8 text-center text-gray-400 text-sm">
+                            <td colspan="5" class="py-8 text-center text-black text-md">
                                 Belum ada data shift.
                             </td>
                         </tr>
                         @endforelse
+                        {{-- No results row --}}
+                        <tr id="shiftNoResults" class="hidden">
+                            <td colspan="5" class="py-8 text-center text-black text-md">
+                                Shift not found.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -371,6 +405,41 @@
             }
         };
     @endif
+
+    // logic search
+    (function () {
+        function setupSearch(inputId, tableBodyId) {
+            const input = document.getElementById(inputId);
+            const tableBody = document.getElementById(tableBodyId);
+            if (!input || !tableBody) return;
+
+            input.addEventListener('input', function () {
+                const query = this.value.toLowerCase().trim();
+                const rows = tableBody.querySelectorAll('tr');
+
+                let anyVisible = false;
+                rows.forEach(row => {
+                    // Skip the "empty" row and the "no results" row itself
+                    if (row.id.endsWith('NoResults') || row.querySelector('td[colspan]')) return;
+                    
+                    const text = row.textContent.toLowerCase();
+                    const match = text.includes(query);
+                    row.style.display = match ? '' : 'none';
+                    if (match) anyVisible = true;
+                });
+
+                // Show/hide "No Results" row
+                const noResultsId = tableBodyId === 'locTableBody' ? 'locNoResults' : 'shiftNoResults';
+                const noResultsRow = document.getElementById(noResultsId);
+                if (noResultsRow) {
+                    noResultsRow.classList.toggle('hidden', anyVisible || query === '');
+                }
+            });
+        }
+
+        setupSearch('locSearchInput', 'locTableBody');
+        setupSearch('shiftSearchInput', 'shiftTableBody');
+    })();
 </script>
 
 @endsection

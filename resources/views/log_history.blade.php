@@ -15,19 +15,59 @@
         <h2 class="text-lg font-bold text-gray-800 mb-4">All Journal Submissions</h2>
         
         <!-- Search & Filter Tab -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <div class="relative w-full md:w-1/2">
-                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input type="text" id="searchInput" placeholder="Cari tanggal, user, grup, lokasi, atau shift" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-100">
+        <!-- Search & Filter Tab -->
+        <div class="flex flex-wrap items-center gap-4 mb-6">
+            {{-- Date Filter --}}
+            <div class="w-full sm:w-44">
+                <input type="date" id="dateFilter" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
             </div>
-            
-            <select id="statusFilter" class="w-full md:w-48 pl-4 pr-8 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-100">
-                <option value="All">All Status</option>
-                <option value="Pending">Pending</option>
-                <option value="Waiting">Waiting</option>
-                <option value="Approved">Approved</option>
-                <option value="Rejected">Rejected</option>
-            </select>
+
+            {{-- Location Filter --}}
+            <div class="w-full sm:w-44">
+                <select id="locationFilter" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
+                    <option value="All">All Location</option>
+                    @foreach($locations as $loc)
+                        <option value="{{ $loc->id }}">{{ $loc->nama_lokasi }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Shift Filter --}}
+            <div class="w-full sm:w-44">
+                <select id="shiftFilter" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
+                    <option value="All">All Shift</option>
+                    @foreach($shifts as $sh)
+                        <option value="{{ $sh->id }}">{{ $sh->nama_shift }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Group Filter --}}
+            <div class="w-full sm:w-44">
+                <select id="groupFilter" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
+                    <option value="All">All Group</option>
+                    @foreach($groups as $gr)
+                        <option value="{{ $gr->id }}">{{ $gr->nama_grup }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Status Filter --}}
+            <div class="w-full sm:w-44">
+                <select id="statusFilter" class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
+                    <option value="All">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Waiting">Waiting</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+
+            {{-- Search Text --}}
+            <div class="relative w-full sm:w-64 lg:w-72">
+                <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="searchInput" placeholder="Cari nama user..." class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-gray-100 text-sm">
+            </div>
         </div>
 
         <!-- Table -->
@@ -47,8 +87,12 @@
                 <tbody>
                     @forelse($journals as $journal)
                         <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors journal-row text-black" 
-                            data-search="{{ strtolower(\Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y')) }} {{ strtolower($journal->user->nama ?? '') }} {{ strtolower($journal->group->nama_grup ?? '') }} {{ strtolower($journal->location->nama_lokasi ?? '') }} {{ strtolower($journal->shift->nama_shift ?? '') }}"
-                            data-status="{{ $journal->status }}">
+                            data-search="{{ strtolower($journal->user->nama ?? '') }}"
+                            data-status="{{ $journal->status }}"
+                            data-date="{{ \Carbon\Carbon::parse($journal->tanggal)->format('Y-m-d') }}"
+                            data-location-id="{{ $journal->lokasi_id }}"
+                            data-shift-id="{{ $journal->shift_id }}"
+                            data-group-id="{{ $journal->group_id }}">
                             <td class="py-3 px-4 text-sm">{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}</td>
                             <td class="py-3 px-4 text-sm font-medium">{{ $journal->user->nama ?? '-' }}</td>
                             <td class="py-3 px-4 text-sm">{{ $journal->group->nama_grup ?? '-' }}</td>
@@ -220,24 +264,40 @@
 <script>
     // Frontend Search & Filter Logic
     document.addEventListener('DOMContentLoaded', function() {
-        const searchInput  = document.getElementById('searchInput');
-        const statusFilter = document.getElementById('statusFilter');
-        const rows         = document.querySelectorAll('.journal-row');
-        const noResultsRow = document.getElementById('no-results-row');
+        const searchInput    = document.getElementById('searchInput');
+        const dateFilter     = document.getElementById('dateFilter');
+        const statusFilter   = document.getElementById('statusFilter');
+        const locationFilter = document.getElementById('locationFilter');
+        const shiftFilter    = document.getElementById('shiftFilter');
+        const groupFilter    = document.getElementById('groupFilter');
+        const rows           = document.querySelectorAll('.journal-row');
+        const noResultsRow   = document.getElementById('no-results-row');
 
         function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const statusTerm = statusFilter.value;
+            const searchTerm   = searchInput.value.toLowerCase().trim();
+            const dateTerm     = dateFilter.value;
+            const statusTerm   = statusFilter.value;
+            const locationTerm = locationFilter.value;
+            const shiftTerm    = shiftFilter.value;
+            const groupTerm    = groupFilter.value;
             let visibleCount = 0;
 
             rows.forEach(row => {
                 const searchableText = row.getAttribute('data-search');
                 const rowStatus      = row.getAttribute('data-status');
+                const rowDate        = row.getAttribute('data-date');
+                const rowLocationId  = row.getAttribute('data-location-id');
+                const rowShiftId     = row.getAttribute('data-shift-id');
+                const rowGroupId     = row.getAttribute('data-group-id');
 
-                const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
-                const matchesStatus = (statusTerm === 'All' || rowStatus === statusTerm);
+                const matchesSearch   = !searchTerm || searchableText.includes(searchTerm);
+                const matchesStatus   = (statusTerm === 'All' || rowStatus === statusTerm);
+                const matchesDate     = !dateTerm || rowDate === dateTerm;
+                const matchesLocation = (locationTerm === 'All' || rowLocationId === locationTerm);
+                const matchesShift    = (shiftTerm === 'All' || rowShiftId === shiftTerm);
+                const matchesGroup    = (groupTerm === 'All' || rowGroupId === groupTerm);
 
-                const visible = matchesSearch && matchesStatus;
+                const visible = matchesSearch && matchesStatus && matchesDate && matchesLocation && matchesShift && matchesGroup;
                 row.style.display = visible ? '' : 'none';
                 if (visible) visibleCount++;
             });
@@ -246,8 +306,10 @@
             noResultsRow.style.display = (visibleCount === 0) ? '' : 'none';
         }
 
-        if(searchInput) searchInput.addEventListener('input', filterTable);
-        if(statusFilter) statusFilter.addEventListener('change', filterTable);
+        [searchInput, dateFilter, statusFilter, locationFilter, shiftFilter, groupFilter].forEach(el => {
+            if(el) el.addEventListener('input', filterTable);
+            if(el && el.tagName === 'SELECT') el.addEventListener('change', filterTable);
+        });
     });
 
     // Handover Modal Logic

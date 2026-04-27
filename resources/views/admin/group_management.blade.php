@@ -12,13 +12,24 @@
     <div class="bg-white rounded-xl shadow-sm p-6">
         
         {{-- Header --}}
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <h2 class="text-base font-bold text-gray-800">Groups</h2>
-            <button
-                onclick="openModalGroup()"
-                class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
-                <span class="text-lg leading-none">+</span> Add Group
-            </button>
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                {{-- Search Input --}}
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="groupSearchInput" placeholder="Search group..." 
+                        class="w-full pl-9 pr-3 py-2 bg-gray-50 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500 block transition-all"
+                        autocomplete="off">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="bi bi-search text-gray-500"></i>
+                    </div>
+                </div>
+                <button
+                    onclick="openModalGroup()"
+                    class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition w-full sm:w-auto">
+                    <span class="text-lg leading-none">+</span> Add Group
+                </button>
+            </div>
         </div>
 
         {{-- Table --}}
@@ -32,7 +43,7 @@
                         <th class="pb-3 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-300">
+                <tbody id="groupTableBody" class="divide-y divide-gray-300">
                     @forelse($groups as $group)
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="py-3.5 pr-6 font-semibold text-gray-800">
@@ -85,11 +96,17 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="py-10 text-center text-gray-400 text-sm">
+                        <td colspan="4" class="py-10 text-center text-black text-md">
                             Belum ada data grup.
                         </td>
                     </tr>
                     @endforelse
+                    {{-- No results row --}}
+                    <tr id="groupNoResults" class="hidden">
+                        <td colspan="4" class="py-8 text-center text-black text-md">
+                            Group not found.
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -306,6 +323,37 @@
             openModalGroup(id ? id : null, nama, satpamIds.map(String));
         };
     @endif
+
+    // logic search
+    (function () {
+        function setupSearch(inputId, tableBodyId, noResultsId) {
+            const input = document.getElementById(inputId);
+            const tableBody = document.getElementById(tableBodyId);
+            const noResultsRow = document.getElementById(noResultsId);
+            if (!input || !tableBody) return;
+
+            input.addEventListener('input', function () {
+                const query = this.value.toLowerCase().trim();
+                const rows = tableBody.querySelectorAll('tr');
+                let anyVisible = false;
+
+                rows.forEach(row => {
+                    if (row.id === noResultsId || row.querySelector('td[colspan]')) return;
+                    
+                    const text = row.textContent.toLowerCase();
+                    const match = text.includes(query);
+                    row.style.display = match ? '' : 'none';
+                    if (match) anyVisible = true;
+                });
+
+                if (noResultsRow) {
+                    noResultsRow.classList.toggle('hidden', anyVisible || query === '');
+                }
+            });
+        }
+
+        setupSearch('groupSearchInput', 'groupTableBody', 'groupNoResults');
+    })();
 </script>
 
 @endsection

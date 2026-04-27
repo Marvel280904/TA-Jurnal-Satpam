@@ -15,9 +15,7 @@ class PGAController extends Controller
     {
         // 4 Summary Cards
         $waiting_approval = Journal::where('status', 'Waiting')->count();
-        $approved_today = Journal::where('status', 'Approved')
-            ->whereDate('updated_at', Carbon::today())
-            ->count();
+        $approved_journals = Journal::where('status', 'Approved')->count();
         $rejected_journals = Journal::where('status', 'Rejected')->count();
         $total_groups = Group::where('status', 'Active')->count();
 
@@ -57,7 +55,7 @@ class PGAController extends Controller
 
         return view('pga.dashboard', compact(
             'waiting_approval',
-            'approved_today',
+            'approved_journals',
             'rejected_journals',
             'total_groups',
             'approval_queue',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Journal;
 use App\Models\User;
+use App\Models\Shift;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,10 +21,12 @@ class SatpamController extends Controller
         // Get ALL journals where this group is the next_shift,
         // compute the actual reminder date (handling shift wrap-around),
         // and only count those whose reminderDate equals today.
-        $shifts = \App\Models\Shift::orderBy('mulai_shift')->get()->values();
+        $shifts = Shift::where('status', 'Active')->orderBy('mulai_shift')->get()->values();
 
         $allPending = Journal::with(['shift'])
             ->where('next_shift', $group_id)
+            ->whereHas('location', fn($q) => $q->where('status', 'Active'))
+            ->whereHas('shift', fn($q) => $q->where('status', 'Active'))
             ->get();
 
         $journals_to_submit = 0;

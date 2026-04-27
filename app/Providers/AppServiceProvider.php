@@ -29,12 +29,14 @@ class AppServiceProvider extends ServiceProvider
             // SATPAM REMINDERS
             // ==========================================
             if ($role === 'Satpam') {
-                $shifts = Shift::orderBy('mulai_shift')->get();
+                $shifts = Shift::where('status', 'Active')->orderBy('mulai_shift')->get();
 
                 if (!$shifts->isEmpty()) {
                     // Reminder 1 - Submit Jurnal (next shift belum submit)
                     $pendingJournals = Journal::with(['location', 'shift'])
                         ->where('next_shift', $groupId)
+                        ->whereHas('location', fn($q) => $q->where('status', 'Active'))
+                        ->whereHas('shift', fn($q) => $q->where('status', 'Active'))
                         ->get();
 
                     foreach ($pendingJournals as $journal) {
