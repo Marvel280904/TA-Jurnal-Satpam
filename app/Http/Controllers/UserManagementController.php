@@ -65,6 +65,7 @@ class UserManagementController extends Controller
             'password' => 'nullable|string|min:6',
         ];
 
+        // Admin tidak dapat mengubah role nya sendiri
         if ($user->role !== 'Admin') {
             $rules['role'] = 'required|in:Satpam,PGA';
         }
@@ -86,6 +87,7 @@ class UserManagementController extends Controller
             'username' => $request->username,
         ];
 
+        // Jika yang mengubah role bukan admin, maka update role
         if ($request->has('role') && $user->role !== 'Admin') {
             $data['role'] = $request->role;
         }

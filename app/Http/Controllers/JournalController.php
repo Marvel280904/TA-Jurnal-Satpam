@@ -94,7 +94,9 @@ class JournalController extends Controller
                 ->with('error', "Jurnal untuk Lokasi: {$lokasiName} pada Shift: {$shiftName} tanggal " . Carbon::parse($request->tanggal)->format('d/m/Y') . " sudah pernah disubmit.");
         }
 
-        DB::beginTransaction();
+        // Tujuan untuk menjaga integritas data, semua proses harus sukses bersama, 
+        // jika ada satu saja yang gagal maka batalkan semua proses
+        DB::beginTransaction(); // seperti di record, sehingga semua proses di tampung dulu di memori sementara
         try {
             $journal = Journal::create([
                 'tanggal'          => $request->tanggal,
@@ -121,9 +123,9 @@ class JournalController extends Controller
                 }
             }
 
-            DB::commit();
+            DB::commit(); // jika tidak ada error, maka semua proses tadi disimpan permanen
         } catch (\Illuminate\Database\QueryException $e) {
-            DB::rollBack();
+            DB::rollBack(); // jika ada error, maka semua proses tadi dibatalkan
             // Handle Race Condition (Unique Constraint Violation)
             // Error code 23000 is for integrity constraint violation, and message usually contains 'Duplicate entry' or constraint name
             if ($e->getCode() == '23000') {
