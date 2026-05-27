@@ -59,7 +59,7 @@
                     <option value="Pending">Pending</option>
                     <option value="Waiting">Waiting</option>
                     <option value="Approved">Approved</option>
-                    <option value="Rejected">Rejected</option>
+                    <option value="Revision" {{ request('status') == 'Revision' ? 'selected' : '' }}>Revision</option>
                 </select>
             </div>
 
@@ -116,15 +116,17 @@
                                     @endif
                                 @elseif($journal->status === 'Approved')
                                     <span class="px-3 py-1 bg-green-100 text-green-700 font-bold rounded-full">Approved</span>
+                                @elseif($journal->status === 'Revision')
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revision</span>
                                 @else
-                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Rejected</span>
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revision</span>
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-center space-x-2">
                                 <button onclick="openViewModal({{ $journal->id }})" class="text-blue-500 hover:text-blue-700 transition" title="View Details">
                                     <i class="bi bi-eye text-lg"></i>
                                 </button>
-                                @if(($journal->status === 'Pending' || $journal->status === 'Rejected') && $journal->group_id === auth()->user()->group_id)
+                                @if(($journal->status === 'Pending' || $journal->status === 'Revision') && $journal->group_id === auth()->user()->group_id)
                                 <a href="{{ route('satpam.journal.edit', $journal->id) }}" class="text-yellow-500 hover:text-yellow-700 transition" title="Edit Journal">
                                     <i class="bi bi-pencil-square text-lg"></i>
                                 </a>
@@ -241,7 +243,7 @@
                     <select name="status" id="finalStatusSelect" required onchange="toggleCatatanTextarea()"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-sm">
                         <option value="Approved">Approve</option>
-                        <option value="Rejected">Reject</option>
+                        <option value="Revision">Revision</option>
                     </select>
                 </div>
 
@@ -396,7 +398,7 @@
     }
 
     function toggleCatatanTextarea() {
-        if (finalStatusSelect.value === 'Rejected') {
+        if (finalStatusSelect.value === 'Revision') {
             finalCatatanContainer.classList.remove('hidden');
             finalCatatanTextarea.setAttribute('required', 'required');
         } else {

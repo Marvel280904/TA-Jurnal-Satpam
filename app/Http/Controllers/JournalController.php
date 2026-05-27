@@ -201,9 +201,14 @@ class JournalController extends Controller
 
     public function editJournalData(Journal $journal)
     {
-        // Only members of the same group can edit, and only if pending or rejected
-        if ($journal->group_id !== Auth::user()->group_id || !in_array($journal->status, ['Pending', 'Rejected'])) {
-            return redirect()->back()->with('error', 'Anda tidak dapat mengedit jurnal ini.');
+        // Only members of the same group can edit, and only if pending or revision
+        if ($journal->group_id !== Auth::user()->group_id) {
+            return redirect()->route('log-history')->with('error', 'Akses ditolak.');
+        }
+
+        if (!in_array($journal->status, ['Pending', 'Revision'])) {
+            $statusMsg = strtolower($journal->status);
+            return redirect()->route('log-history')->with('error', "Jurnal sudah dalam status {$statusMsg}, tidak dapat diedit!");
         }
 
         $journal->load('uploads'); // Load existing uploads
@@ -220,8 +225,13 @@ class JournalController extends Controller
 
     public function editJournal(Request $request, Journal $journal)
     {
-        if ($journal->group_id !== Auth::user()->group_id || !in_array($journal->status, ['Pending', 'Rejected'])) {
-            return redirect()->back()->with('error', 'Akses ditolak.');
+        if ($journal->group_id !== Auth::user()->group_id) {
+            return redirect()->route('log-history')->with('error', 'Akses ditolak.');
+        }
+
+        if (!in_array($journal->status, ['Pending', 'Revision'])) {
+            $statusMsg = strtolower($journal->status);
+            return redirect()->route('log-history')->with('error', "Jurnal sudah dalam status {$statusMsg}, tidak dapat diedit!");
         }
 
         $request->validate([
@@ -273,7 +283,8 @@ class JournalController extends Controller
 
         DB::beginTransaction();
         try {
-            $newStatus = $journal->status === 'Rejected' ? 'Waiting' : 'Pending';
+            // If it was in revision, it goes to waiting. If pending, it stays pending (or goes to waiting if you want, but as per original logic, we keep it as pending? Wait, original logic: $journal->status === 'Rejected' ? 'Waiting' : 'Pending')
+            $newStatus = $journal->status === 'Revision' ? 'Waiting' : 'Pending';
 
             $journal->update([
                 'tanggal'          => $request->tanggal,
@@ -376,12 +387,12 @@ class JournalController extends Controller
         }
 
         $request->validate([
-            'status'  => 'required|in:Approved,Rejected',
-            'catatan' => 'required_if:status,Rejected|nullable|string',
+            'status'  => 'required|in:Approved,Revision',
+            'catatan' => 'required_if:status,Revision|nullable|string',
         ], [
             'status.required' => 'Status wajib diisi.',
-            'status.in' => 'Status harus Approved atau Rejected.',
-            'catatan.required_if' => 'Catatan wajib diisi jika jurnal ditolak.',
+            'status.in' => 'Status harus Approved atau Revision.',
+            'catatan.required_if' => 'Catatan wajib diisi jika jurnal perlu direvisi.',
             'catatan.string' => 'Catatan harus berupa teks.',
         ]);
 
@@ -391,7 +402,7 @@ class JournalController extends Controller
         $journal->finalApproval(Auth::id(), $status);
         $journal->save();
 
-        return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'ditolak') . '!');
+        return redirect()->back()->with('success', 'Jurnal berhasil ' . ($status === 'Approved' ? 'disetujui' : 'dikembalikan untuk revisi') . '!');
     }
 
     /* public function deleteJournal($id)

@@ -85,18 +85,18 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
 
-                // Reminder 3 - Revisi (jurnal Rejected milik grup ini)
-                $rejectedJournals = Journal::with(['location', 'shift'])
+                // Reminder 3 - Revisi (jurnal Revision milik grup ini)
+                $revisionJournals = Journal::with(['location', 'shift'])
                     ->where('group_id', $groupId)
-                    ->where('status', 'Rejected')
+                    ->where('status', 'Revision')
                     ->get();
 
-                foreach ($rejectedJournals as $rejected) {
+                foreach ($revisionJournals as $revision) {
                     $reminders->push([
-                        'type'    => 'rejected',
-                        'tanggal' => Carbon::parse($rejected->tanggal)->locale('id')->isoFormat('D MMMM Y'),
-                        'lokasi'  => $rejected->location->nama_lokasi ?? '-',
-                        'shift'   => $rejected->shift->nama_shift ?? '-',
+                        'type'    => 'revision',
+                        'tanggal' => Carbon::parse($revision->tanggal)->locale('id')->isoFormat('D MMMM Y'),
+                        'lokasi'  => $revision->location->nama_lokasi ?? '-',
+                        'shift'   => $revision->shift->nama_shift ?? '-',
                     ]);
                 }
             }

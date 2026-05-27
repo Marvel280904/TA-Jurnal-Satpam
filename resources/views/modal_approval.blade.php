@@ -90,10 +90,10 @@
             catatanContainer.classList.add('hidden');
             catatanInput.removeAttribute('required');
         } else {
-            title.textContent = 'Reject Journal';
+            title.textContent = 'Revise Journal';
             message.textContent = 'Apakah anda yakin ingin menolak jurnal ini? Tolong berikan alasan penolakan';
             submitBtn.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors';
-            submitBtn.innerHTML = 'Confirm Reject';
+            submitBtn.innerHTML = 'Confirm Revise';
             catatanContainer.classList.remove('hidden');
             catatanInput.setAttribute('required', 'required');
         }

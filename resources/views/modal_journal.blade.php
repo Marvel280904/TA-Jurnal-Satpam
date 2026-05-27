@@ -150,7 +150,9 @@
         if(status === 'Pending') return `<span class="px-3 py-1 bg-gray-100 text-gray-700 font-bold rounded-full text-xs">Pending</span>`;
         if(status === 'Waiting') return `<span class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full text-xs">Waiting</span>`;
         if(status === 'Approved') return `<span class="px-3 py-1 bg-green-100 text-green-700 font-bold rounded-full text-xs">Approved</span>`;
-        return `<span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full text-xs">Rejected</span>`;
+        if(status === 'Revision') {
+            return `<span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full text-xs">Revision</span>`;
+        }
     }
 
     function openViewModal(id) {
