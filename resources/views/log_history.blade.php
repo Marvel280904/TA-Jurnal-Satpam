@@ -131,9 +131,9 @@
                                     <i class="bi bi-pencil-square text-lg"></i>
                                 </a>
                                 @endif
-                                <a href="{{ route('journal.download', $journal->id) }}" class="text-red-500 hover:text-red-700 transition" title="Download PDF">
+                                <button onclick="openDownloadModal('{{ route('journal.download', $journal->id) }}', '{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}', '{{ addslashes($journal->location->nama_lokasi ?? '-') }}', '{{ addslashes($journal->shift->nama_shift ?? '-') }}')" class="text-red-500 hover:text-red-700 transition" title="Download PDF">
                                     <i class="bi bi-file-earmark-pdf text-lg"></i>
-                                </a>
+                                </button>
                                 {{-- @if(auth()->user()->role === 'PGA')
                                 <button onclick="openDeleteModal({{ $journal->id }}, '{{ \Carbon\Carbon::parse($journal->tanggal)->translatedFormat('d F Y') }}', '{{ $journal->location->nama_lokasi ?? '-' }}', '{{ $journal->shift->nama_shift ?? '-' }}')" class="text-red-600 hover:text-red-800 transition" title="Delete Journal">
                                     <i class="bi bi-trash text-lg"></i>
@@ -260,6 +260,29 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Download Confirmation Modal -->
+<div id="downloadModal" class="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl transform scale-95 transition-transform duration-300 p-6 mx-4">
+        <div class="flex items-center gap-3 text-red-600 mb-4">
+            <i class="bi bi-file-earmark-pdf text-2xl"></i>
+            <h2 class="text-xl font-bold text-gray-800">Download Confirmation</h2>
+        </div>
+        <p class="text-black mb-4">Apakah Anda yakin ingin mengunduh PDF jurnal ini?</p>
+        <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 mb-6 text-sm text-black">
+            <p class="mb-1"><strong>Tanggal:</strong> <span id="downloadDate"></span></p>
+            <p class="mb-1"><strong>Lokasi:</strong> <span id="downloadLocation"></span></p>
+            <p><strong>Shift:</strong> <span id="downloadShift"></span></p>
+        </div>
+        
+        <div class="flex justify-end gap-3 rounded-b-2xl">
+            <button type="button" onclick="closeDownloadModal()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 font-medium rounded-lg transition-colors">Batal</button>
+            <a id="downloadConfirmBtn" href="" onclick="closeDownloadModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center gap-2">
+                Ya, Download
+            </a>
+        </div>
     </div>
 </div>
 
@@ -412,6 +435,34 @@
         finalApprovalModal.firstElementChild.classList.add('scale-95');
         setTimeout(() => {
             finalApprovalModal.classList.add('hidden');
+        }, 300);
+    }
+
+    // Download Modal Logic
+    const downloadModal = document.getElementById('downloadModal');
+    const downloadConfirmBtn = document.getElementById('downloadConfirmBtn');
+    const downloadDateText = document.getElementById('downloadDate');
+    const downloadLocationText = document.getElementById('downloadLocation');
+    const downloadShiftText = document.getElementById('downloadShift');
+
+    function openDownloadModal(downloadUrl, date, location, shift) {
+        downloadConfirmBtn.href = downloadUrl;
+        downloadDateText.textContent = date;
+        downloadLocationText.textContent = location;
+        downloadShiftText.textContent = shift;
+        
+        downloadModal.classList.remove('hidden');
+        setTimeout(() => {
+            downloadModal.classList.remove('opacity-0');
+            downloadModal.firstElementChild.classList.remove('scale-95');
+        }, 10);
+    }
+
+    function closeDownloadModal() {
+        downloadModal.classList.add('opacity-0');
+        downloadModal.firstElementChild.classList.add('scale-95');
+        setTimeout(() => {
+            downloadModal.classList.add('hidden');
         }, 300);
     }
 
