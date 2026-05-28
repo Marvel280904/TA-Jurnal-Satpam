@@ -6,7 +6,7 @@
     <!-- Top Cards Requirements:
     - Waiting Approval (journal status = Waiting)
     - Approved Today (journal status = Approved today)
-    - Revision Journals (journal status = Revision)
+    - Revise Journals (journal status = Revise)
     - Total Groups (count tbl groups)
     -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -32,11 +32,11 @@
             </div>
         </div>
 
-        <!-- Revision Journals -->
+        <!-- Revise Journals -->
         <div class="bg-white p-6 rounded-xl border border-gray-100 flex items-center justify-between">
             <div>
-                <p class="text-sm text-black mb-1">Revision Journals</p>
-                <p class="text-3xl font-bold text-gray-800">{{ $revision_journals }}</p>
+                <p class="text-sm text-black mb-1">Revise Journals</p>
+                <p class="text-3xl font-bold text-gray-800">{{ $revise_journals }}</p>
             </div>
             <div class="w-12 h-12 rounded-xl bg-red-100 text-red-500 flex items-center justify-center">
                 <i class="bi bi-x-circle text-2xl"></i>
@@ -77,7 +77,7 @@
                         <button onclick="openApprovalModal({{ $journal->id }}, 'Approved')" class="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-green-500">
                             <i class="bi bi-check2"></i> Approve
                         </button>
-                        <button onclick="openApprovalModal({{ $journal->id }}, 'Revision')" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <button onclick="openApprovalModal({{ $journal->id }}, 'Revise')" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-red-500">
                             <i class="bi bi-x"></i> Revise
                         </button>
                     </div>

@@ -26,8 +26,8 @@
                 @endif
                 
                 <div id="catatanContainer" class="hidden mb-4">
-                    <label for="catatanInput" class="block text-sm font-bold text-gray-700 mb-1">Catatan Penolakan <span class="text-red-500">*</span></label>
-                    <textarea  name="catatan" id="catatanInput" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm" placeholder="Jelaskan alasan kenapa jurnal ini ditolak..."></textarea>
+                    <label for="catatanInput" class="block text-sm font-bold text-gray-700 mb-1">Catatan Revisi <span class="text-red-500">*</span></label>
+                    <textarea  name="catatan" id="catatanInput" rows="3" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none transition-all text-sm" placeholder="Jelaskan alasan kenapa jurnal ini perlu direvisi..."></textarea>
                 </div>
                 
                 <div class="flex gap-3 justify-end">
@@ -91,7 +91,7 @@
             catatanInput.removeAttribute('required');
         } else {
             title.textContent = 'Revise Journal';
-            message.textContent = 'Apakah anda yakin ingin menolak jurnal ini? Tolong berikan alasan penolakan';
+            message.textContent = 'Apakah anda yakin ingin mengirim kembali jurnal ini? Tolong berikan alasan penolakan';
             submitBtn.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-colors';
             submitBtn.innerHTML = 'Confirm Revise';
             catatanContainer.classList.remove('hidden');

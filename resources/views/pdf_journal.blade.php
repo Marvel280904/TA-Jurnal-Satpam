@@ -94,7 +94,7 @@
     @endif
 
     @if($journal->catatan)
-    <div class="section-title" style="color: #dc2626; border-bottom-color: #fecaca;">Catatan Revisi / Alasan Penolakan</div>
+    <div class="section-title" style="color: #dc2626; border-bottom-color: #fecaca;">Catatan Revisi</div>
     <div class="content-box" style="background-color: #fef2f2; border-color: #fecaca; color: #991b1b;">
         {!! nl2br(e($journal->catatan)) !!}
     </div>

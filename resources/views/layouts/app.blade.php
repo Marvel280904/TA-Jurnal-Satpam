@@ -57,7 +57,7 @@
                             @forelse($journalReminders as $reminder)
                                 <div class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition">
                                     <div class="flex items-start gap-3">
-                                        @if($reminder['type'] === 'revision')
+                                        @if($reminder['type'] === 'revise')
                                             <div class="mt-0.5 w-7 h-7 rounded-full bg-red-100 text-red-500 flex items-center justify-center flex-shrink-0">
                                                 <i class="bi bi-x-circle text-sm"></i>
                                             </div>

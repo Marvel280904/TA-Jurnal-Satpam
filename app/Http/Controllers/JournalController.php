@@ -201,12 +201,12 @@ class JournalController extends Controller
 
     public function editJournalData(Journal $journal)
     {
-        // Only members of the same group can edit, and only if pending or revision
+        // Only members of the same group can edit, and only if pending or revise
         if ($journal->group_id !== Auth::user()->group_id) {
             return redirect()->route('log-history')->with('error', 'Akses ditolak.');
         }
 
-        if (!in_array($journal->status, ['Pending', 'Revision'])) {
+        if (!in_array($journal->status, ['Pending', 'Revise'])) {
             $statusMsg = strtolower($journal->status);
             return redirect()->route('log-history')->with('error', "Jurnal sudah dalam status {$statusMsg}, tidak dapat diedit!");
         }
@@ -229,7 +229,7 @@ class JournalController extends Controller
             return redirect()->route('log-history')->with('error', 'Akses ditolak.');
         }
 
-        if (!in_array($journal->status, ['Pending', 'Revision'])) {
+        if (!in_array($journal->status, ['Pending', 'Revise'])) {
             $statusMsg = strtolower($journal->status);
             return redirect()->route('log-history')->with('error', "Jurnal sudah dalam status {$statusMsg}, tidak dapat diedit!");
         }
@@ -283,8 +283,8 @@ class JournalController extends Controller
 
         DB::beginTransaction();
         try {
-            // If it was in revision, it goes to waiting. If pending, it stays pending (or goes to waiting if you want, but as per original logic, we keep it as pending? Wait, original logic: $journal->status === 'Rejected' ? 'Waiting' : 'Pending')
-            $newStatus = $journal->status === 'Revision' ? 'Waiting' : 'Pending';
+            // If it was in Revise, it goes to waiting. If pending, it stays pending (or goes to waiting if you want, but as per original logic, we keep it as pending? Wait, original logic: $journal->status === 'Rejected' ? 'Waiting' : 'Pending')
+            $newStatus = $journal->status === 'Revise' ? 'Waiting' : 'Pending';
 
             $journal->update([
                 'tanggal'          => $request->tanggal,
@@ -387,11 +387,11 @@ class JournalController extends Controller
         }
 
         $request->validate([
-            'status'  => 'required|in:Approved,Revision',
-            'catatan' => 'required_if:status,Revision|nullable|string',
+            'status'  => 'required|in:Approved,Revise',
+            'catatan' => 'required_if:status,Revise|nullable|string',
         ], [
             'status.required' => 'Status wajib diisi.',
-            'status.in' => 'Status harus Approved atau Revision.',
+            'status.in' => 'Status harus Approved atau Revise.',
             'catatan.required_if' => 'Catatan wajib diisi jika jurnal perlu direvisi.',
             'catatan.string' => 'Catatan harus berupa teks.',
         ]);

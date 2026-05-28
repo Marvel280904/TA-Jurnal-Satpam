@@ -54,7 +54,7 @@
             <!-- Catatan Rejection Info -->
             <div id="v_catatanInfo" class="hidden">
                  <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg text-sm text-red-800">
-                     <p class="font-bold mb-1 flex items-center gap-2"><i class="bi bi-exclamation-circle text-red-500"></i> Alasan Penolakan (Catatan Revisi):</p>
+                     <p class="font-bold mb-1 flex items-center gap-2"><i class="bi bi-exclamation-circle text-red-500"></i> Catatan Revisi:</p>
                      <p id="v_catatanText" class="text-black bg-white/50 p-2 rounded border border-red-100"></p>
                  </div>
             </div>
@@ -150,8 +150,8 @@
         if(status === 'Pending') return `<span class="px-3 py-1 bg-gray-100 text-gray-700 font-bold rounded-full text-xs">Pending</span>`;
         if(status === 'Waiting') return `<span class="px-3 py-1 bg-yellow-100 text-yellow-700 font-bold rounded-full text-xs">Waiting</span>`;
         if(status === 'Approved') return `<span class="px-3 py-1 bg-green-100 text-green-700 font-bold rounded-full text-xs">Approved</span>`;
-        if(status === 'Revision') {
-            return `<span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full text-xs">Revision</span>`;
+        if(status === 'Revise') {
+            return `<span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full text-xs">Revise</span>`;
         }
     }
 

@@ -59,7 +59,7 @@
                     <option value="Pending">Pending</option>
                     <option value="Waiting">Waiting</option>
                     <option value="Approved">Approved</option>
-                    <option value="Revision" {{ request('status') == 'Revision' ? 'selected' : '' }}>Revision</option>
+                    <option value="Revise" {{ request('status') == 'Revise' ? 'selected' : '' }}>Revise</option>
                 </select>
             </div>
 
@@ -116,17 +116,17 @@
                                     @endif
                                 @elseif($journal->status === 'Approved')
                                     <span class="px-3 py-1 bg-green-100 text-green-700 font-bold rounded-full">Approved</span>
-                                @elseif($journal->status === 'Revision')
-                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revision</span>
+                                @elseif($journal->status === 'Revise')
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revise</span>
                                 @else
-                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revision</span>
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 font-bold rounded-full">Revise</span>
                                 @endif
                             </td>
                             <td class="py-3 px-4 text-center space-x-2">
                                 <button onclick="openViewModal({{ $journal->id }})" class="text-blue-500 hover:text-blue-700 transition" title="View Details">
                                     <i class="bi bi-eye text-lg"></i>
                                 </button>
-                                @if(($journal->status === 'Pending' || $journal->status === 'Revision') && $journal->group_id === auth()->user()->group_id)
+                                @if(($journal->status === 'Pending' || $journal->status === 'Revise') && $journal->group_id === auth()->user()->group_id)
                                 <a href="{{ route('satpam.journal.edit', $journal->id) }}" class="text-yellow-500 hover:text-yellow-700 transition" title="Edit Journal">
                                     <i class="bi bi-pencil-square text-lg"></i>
                                 </a>
@@ -243,15 +243,15 @@
                     <select name="status" id="finalStatusSelect" required onchange="toggleCatatanTextarea()"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-sm">
                         <option value="Approved">Approve</option>
-                        <option value="Revision">Revision</option>
+                        <option value="Revise">Revise</option>
                     </select>
                 </div>
 
                 <div id="finalCatatanContainer" class="hidden">
-                    <label class="block text-sm font-bold text-gray-700 mb-1">Catatan Penolakan <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Catatan Revisi <span class="text-red-500">*</span></label>
                     <textarea name="catatan" id="finalCatatanTextarea" rows="3" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
-                        placeholder="Alasan jurnal ditolak..."></textarea>
+                        placeholder="Alasan jurnal direvisi..."></textarea>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-2">
@@ -421,7 +421,7 @@
     }
 
     function toggleCatatanTextarea() {
-        if (finalStatusSelect.value === 'Revision') {
+        if (finalStatusSelect.value === 'Revise') {
             finalCatatanContainer.classList.remove('hidden');
             finalCatatanTextarea.setAttribute('required', 'required');
         } else {
